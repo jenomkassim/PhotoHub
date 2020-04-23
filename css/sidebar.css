@@ -156,6 +156,18 @@ color: rgba(255,255,255, 0.9);
     transition: 0.3s all ease-in-out;
 }
 
+.box-card-timeline {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+    /*color: white;*/
+    /*padding: 60px 20px;*/
+    border-radius: 30px;
+    margin-bottom: 20px;
+    transition: 0.3s all ease-in-out;
+}
+
 .my-form-text {
     font-size: 16px;
     font-weight: 100;

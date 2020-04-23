@@ -5,6 +5,8 @@ import webapp2
 from google.appengine.api import users
 
 from timeline import Timeline
+from timeline import UploadHandler
+from timeline import ViewPhotoHandler
 # from taskboard_page import TaskBoardPage
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -46,5 +48,8 @@ class MainPage(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/timeline', Timeline),
+    ('/upload', UploadHandler),
+    ('/view_photo/([^/]+)?', ViewPhotoHandler),
+    # (r'/img_serve/<resource:(.*)>', Timeline)
     # ('/taskboard', TaskBoardPage),
 ], debug=True)

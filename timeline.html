@@ -16,7 +16,12 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="logo-style">
-            <img src="images/logo.png" class="d-block mx-auto" height="100"/>
+            <img src="img/logo.png" class="d-block mx-auto" height="100"/>
+            <div class="text-center" style="margin-top: 20px;">
+                            <button type="button" style="padding: 7px 15px;" class="btn btn-danger" data-toggle="modal" data-target="#newPost">
+                                Add New Post
+                            </button>
+                        </div>
         </div>
 
 
@@ -26,6 +31,7 @@
 
                 <li class="active"> <a href="/">Timeline</a> </li>
                 <li> <a href="taskboards.html">Task boards</a> </li>
+                <li> <a href="{{ url }}">{{ login_status }}</a> </li>
 
             </ul>
 
@@ -43,37 +49,38 @@
         <div>
 
 
-            <div class="content-wrapper">
+            <div class="content-wrapper p-4">
 
-                <div class="row" style="padding: 20px">
-                    <div class="col-12 box-card-head shadow-lg" >
-                        <h1 class="">Welcome back, User</h1>
-                        <h5>You currently have 4 task board(s)</h5>
-                        <div style="margin-top: 20px;">
-                            <button type="button" style="padding: 7px 15px;" class="btn theme-button" data-toggle="modal" data-target="#newTaskboard">
-                                Create a New Task Board
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row" style="padding: 20px 35px">
-                    <div class="col-12">
-                        <h5>All Task Boards</h5>
+                <!-- we will then list the blobs that we do have in the datastore available to us -->
+                {% for i in all_posts %}
+                {% set x = Post.get_by_id(i.id()).creator %}
+                <div class="row box-card-timeline shadow-lg mt-3">
+                    <div class="col-12" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(255, 255, 255, 0)), url('/view_photo/{{ Post.get_by_id(i.id()).image_blob_key }}');
+                    height: 400px; width: 650px; background-size: cover; background-repeat: no-repeat; border-radius: 30px 30px 0px 0px;" >
+                        <p class="text-light p-3 lead">
+
+                        </p>
                     </div>
 
-                    <div class="col-3">
-                        <a href="taskboards.html">
-                            <div class="card mb-3">
-                                <img class="card-img-top" src="images/undraw_confirmation_2uy0.png" alt="Card image cap">
-                                <div class="card-body" style="background-color: #34495e; color: white;">
-                                    <h5 class="card-title text-center"> Task board A</h5>
-                                </div>
-                            </div>
-                        </a>
+
+                    <div class="col-12 pt-3">
+                        <img src="img/like.png" class="img-fluid" style="height: 20px; margin-top: -10px"> <span class="lead">Like</span>
+                        <img src="img/comment.png" class="img-fluid pl-4" style="height: 20px; margin-top: -10px"> <span class="lead">Comment</span>
+                        <img src="img/share.png" class="img-fluid pl-4" style="height: 20px; margin-top: -10px"> <span class="lead">Share</span>
                     </div>
 
-                </div>
+                    <div class="col-12 p-3">
+                        <p>
+                            <span class="font-weight-bold">{{ MyUser.get_by_id(x.id()).email }} </span>
+                            <span class="lead" style="font-size: 17px">{{ Post.get_by_id(i.id()).caption }}</span>
+                        </p>
+                    </div>
+
+                    </div>
+
+
+                {% endfor %}
 
             </div>
 
@@ -87,32 +94,51 @@
 </div>
 
 
-<!--CREATE NEW TASKBOARD-->
+<!--CREATE NEW POST-->
 
 <!-- Modal -->
-<div class="modal fade" id="newTaskboard" tabindex="-1" role="dialog" aria-labelledby="newTaskboard" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="newPost" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create New Task Board</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Create New Post</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Taskboard Title</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                <form action="{{ upload_url }}" method="post" enctype="multipart/form-data">
+                    Upload File: <input type="file" name="file" accept="image/png, image/jpeg," /><br/>
+
+                    <div class="row">
+                        <div class="col form-group">
+                            <label for="postCaption">Write Caption</label>
+                            <textarea class="form-control" maxlength="1000" id="postCaption" name="postCaption" required rows="4"></textarea>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <input type="submit"/>
                 </form>
+
+<!--                <form action="{{ upload_url }}" method="post" enctype="multipart/form-data">-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="uploadImage">Upload Image</label>-->
+<!--                        <input type="file" class="form-control" id="uploadImage" name="uploadImage">-->
+<!--                    </div>-->
+<!--&lt;!&ndash;                    <div class="row">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <div class="col form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <label for="postCaption">Write Caption</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <textarea class="form-control" maxlength="1000" id="postCaption" name="postCaption" required rows="7"></textarea>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                    <button type="submit" class="btn btn-primary">Post</button>-->
+<!--                </form>-->
             </div>
         </div>
     </div>
 </div>
 
-<script src="js/jquery-3.3.1.js"></script>
+<script src="js/jquery-3.4.1.min.js"></script>
 <script src="js/bootstrap.bundle.js"></script>
 
 </body>
