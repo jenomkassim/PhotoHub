@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/sidebar.css" />
+
+
+</head>
+
+<body>
+
+
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="logo-style">
+            <img src="images/logo.png" class="d-block mx-auto" height="100"/>
+        </div>
+
+
+        <div class="sidebar-nav" style="margin-top: 40px;">
+
+            <ul class="list-unstyled components">
+
+                <li class="active"> <a href="/">Timeline</a> </li>
+                <li> <a href="taskboards.html">Task boards</a> </li>
+
+            </ul>
+
+        </div>
+
+
+
+    </nav>
+
+
+
+    <!-- Page Content  -->
+    <div id="content">
+
+        <div>
+
+
+            <div class="content-wrapper">
+
+                <div class="row" style="padding: 20px">
+                    <div class="col-12 box-card-head shadow-lg" >
+                        <h1 class="">Welcome back, User</h1>
+                        <h5>You currently have 4 task board(s)</h5>
+                        <div style="margin-top: 20px;">
+                            <button type="button" style="padding: 7px 15px;" class="btn theme-button" data-toggle="modal" data-target="#newTaskboard">
+                                Create a New Task Board
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 20px 35px">
+                    <div class="col-12">
+                        <h5>All Task Boards</h5>
+                    </div>
+
+                    <div class="col-3">
+                        <a href="taskboards.html">
+                            <div class="card mb-3">
+                                <img class="card-img-top" src="images/undraw_confirmation_2uy0.png" alt="Card image cap">
+                                <div class="card-body" style="background-color: #34495e; color: white;">
+                                    <h5 class="card-title text-center"> Task board A</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!--CREATE NEW TASKBOARD-->
+
+<!-- Modal -->
+<div class="modal fade" id="newTaskboard" tabindex="-1" role="dialog" aria-labelledby="newTaskboard" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create New Task Board</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Taskboard Title</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery-3.3.1.js"></script>
+<script src="js/bootstrap.bundle.js"></script>
+
+</body>
+</html>

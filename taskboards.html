@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Forms</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/sidebar.css" />
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+
+</head>
+
+<body>
+
+
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="logo-style">
+            <img src="images/logo.png" class="d-block mx-auto" height="100"/>
+        </div>
+
+        <div class="sidebar-nav" style="margin-top: 40px;">
+
+            <ul class="list-unstyled components">
+
+                <li> <a href="index.html">Home</a> </li>
+                <li class="active"> <a href="taskboards.html">Task boards</a> </li>
+
+            </ul>
+
+        </div>
+
+
+
+    </nav>
+
+
+
+    <!-- Page Content  -->
+    <div id="content">
+
+        <div>
+
+
+            <div class="content-wrapper">
+
+                <div class="row" style="padding: 20px">
+                    <div class="col" >
+                        <h3 class="">Task Board A</h3>
+                    </div>
+                    <div class="col">
+                        <button type="button" style="padding: 7px 15px;" class="btn theme-button float-right" data-toggle="modal"
+                                data-target="#inviteUser">Invite A User</button>
+                    </div>
+                </div>
+
+                <div style="padding: 20px">
+                    <!-- TASKBOARD DESIGN -->
+                    <div class="row">
+
+                        <!--                    TASKS PART-->
+                        <div class="col" style="background-color: rgba(52, 73, 94,0.7); height: 100vh">
+                            <div class="row" style="padding: 20px">
+                                <div class="col-12 mb-3 text-white">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5>All Tasks</h5>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" style="padding: 7px 15px;" class="btn btn-light float-right" data-toggle="modal"
+                                                    data-target="#addTask">Add New Task</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <form>
+<!--                                    TASK 1-->
+                                    <div class="col-12 text-white mt-3">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="task1" name="example1">
+                                            <label class="custom-control-label" for="task1">Check this custom checkbox</label>
+                                        </div>
+                                    </div>
+
+<!--                                    TASK 2-->
+                                    <div class="col-12 text-white mt-3">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="task2" name="example1">
+                                            <label class="custom-control-label" for="task2">Check this custom checkbox</label>
+                                        </div>
+                                    </div>
+
+<!--                                    TASK 3-->
+                                    <div class="col-12 text-white mt-3">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="task3" name="example1">
+                                            <label class="custom-control-label" for="task3">Check this custom checkbox</label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!--                    MEMBERS PART-->
+                        <div class="col-4" style="background-color: #ecf0f1; height: 100vh">
+                            <div class="row" style="padding: 20px">
+                                <div class="col-12">
+                                    <h5>All Members</h5>
+                                </div>
+
+                                <div class="row" style="padding: 0 10px">
+                                    <div class="col pt-3">
+                                        <p class="mt-2">1. joe@example.com</p>
+                                        <p class="mt-2">2. joe@example.com</p>
+                                        <p class="mt-2">3. joe@example.com</p>
+                                        <p class="mt-2">4. joe@example.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!--INVITE USER -->
+
+<!-- Modal -->
+<div class="modal fade" id="inviteUser" tabindex="-1" role="dialog" aria-labelledby="inviteUser" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Invite User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Taskboard Title</label>
+                        <input type="text" class="form-control mt-3" value="test@user.com">
+                        <input type="text" class="form-control mt-3" value="test@user.com">
+                        <input type="text" class="form-control mt-3" value="test@user.com">
+                        <input type="text" class="form-control mt-3" value="test@user.com">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--ADD Task -->
+
+<!-- Modal -->
+<div class="modal fade" id="addTask" tabindex="-1" role="dialog" aria-labelledby="addTask" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Task</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="title">Task Title</label>
+                            <input type="text" class="form-control" id="title" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="duedate">Due Date</label>
+                        <input type="text" class="form-control" id="duedate" placeholder="1234 Main St">
+                    </div>
+                    <div class="form-group">
+                            <label for="inputState">Assign To</label>
+                            <select id="inputState" class="form-control">
+                                <option selected>Choose...</option>
+                                <option>...</option>
+                            </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary form-control">Add Task</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>
