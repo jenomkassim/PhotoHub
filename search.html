@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Timeline - InstaHub</title>
+    <title>Search - InstaHub</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/sidebar.css" />
 
@@ -29,9 +29,9 @@
 
             <ul class="list-unstyled components">
 
-                <li class="active"> <a href="/">Timeline</a> </li>
+                <li> <a href="/">Timeline</a> </li>
                 <li> <a href="/profile">Profile</a> </li>
-                <li> <a href="/search">Search</a> </li>
+                <li class="active"> <a href="/search">Search</a> </li>
                 <li> <a href="{{ url }}">{{ login_status }}</a> </li>
 
             </ul>
@@ -53,33 +53,6 @@
             <div class="content-wrapper p-4">
 
 
-                <!-- we will then list the blobs that we do have in the datastore available to us -->
-                {% for i in all_posts[::-1] %}
-                {% set x = Post.get_by_id(i.id()).creator %}
-                <div class="row box-card-timeline shadow-lg mt-3">
-                    <div class="col-12" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(255, 255, 255, 0)), url('/view_photo/{{ Post.get_by_id(i.id()).image_blob_key }}');
-                    height: 400px; width: 650px; background-size: cover; background-repeat: no-repeat; border-radius: 30px 30px 0px 0px;" >
-                        <p class="text-light p-3 lead">
-
-                        </p>
-                    </div>
-
-
-                    <div class="col-12 pt-3">
-                        <img src="img/like.png" class="img-fluid" style="height: 15px; margin-top: -5px"> <span class="lead" style="font-size: 15px">Like</span>
-                        <img src="img/comment.png" class="img-fluid pl-4" style="height: 15px; margin-top: -5px"> <span class="lead" style="font-size: 15px">Comment</span>
-                        <img src="img/share.png" class="img-fluid pl-4" style="height: 15px; margin-top: -5px"> <span class="lead" style="font-size: 15px">Share</span>
-                    </div>
-
-                    <div class="col-12 p-3">
-                        <p>
-                            <span class="font-weight-bold">{{ MyUser.get_by_id(x.id()).email }} </span>
-                            <span class="lead" style="font-size: 17px">{{ Post.get_by_id(i.id()).caption }}</span>
-                        </p>
-                    </div>
-
-                    </div>
-                {% endfor %}
 
             </div>
 

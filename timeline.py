@@ -101,15 +101,6 @@ class Timeline(webapp2.RequestHandler):
             url = users.create_login_url(self.request.uri)
             login_status = 'Login'
 
-        # collection_key = ndb.Key('PostImages', 5717460464435200)
-        # collection = collection_key.get()
-        #
-        # if collection == None:
-        #     collection = PostImages(id=1)
-        #     collection.put()
-
-        # for i in myuser.users_posts_key:
-        #     self.response.write(i)
 
         template_values = {
             'url': url,
@@ -117,14 +108,11 @@ class Timeline(webapp2.RequestHandler):
             'welcome': welcome,
             'login_status': login_status,
             'user_email': user.email(),
-            # 'taskboard_user_keys': taskboard_user_keys,
             'myuser_key': myuser_key,
-            # 'collection': collection,
             'upload_url': blobstore.create_upload_url('/upload'),
             'all_posts': myuser.users_posts_key,
             'Post': Post,
             'MyUser': MyUser
-            # 'TaskBoard': TaskBoard
         }
 
         template = JINJA_ENVIRONMENT.get_template('timeline.html')
@@ -137,27 +125,5 @@ class Timeline(webapp2.RequestHandler):
         user = users.get_current_user()
         myuser_key = ndb.Key('MyUser', user.user_id())
 
-        # GET NEW TASKBOARD NAME
-        taskboard_title = self.request.get('taskboard_name')
 
-        # CREATE NEW TASKBOARD
-
-        # Ask Datastore to allocate an ID.
-        new_id = ndb.Model.allocate_ids(size=1, parent=myuser_key)[0]
-
-        # Datastore returns us an integer ID that we can use to create the new taskboard key
-        new_taskboard_key = ndb.Key('TaskBoard', new_id, parent=myuser_key)
-
-        # Now we can put the values of the new task board into the TaskBoard Datastore
-        new_taskboard = TaskBoard(key=new_taskboard_key, creator=myuser_key, creator_name=user.email(),
-                                  name=taskboard_title, creator_id=user.user_id())
-        new_taskboard.members_id.append(myuser_key.id())
-        new_taskboard.put()
-
-        # We also have to pass the details of this task board to the MyUser datastore
-        # by retrieving the details of the user to update it by appending the task board key
-        new_taskboard_user_ref = MyUser.get_by_id(myuser_key.id())
-        new_taskboard_user_ref.td_key.append(new_taskboard.key)
-        new_taskboard_user_ref.put()
-        self.redirect('/timeline')
 
