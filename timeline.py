@@ -91,8 +91,8 @@ class Timeline(webapp2.RequestHandler):
                 myuser = MyUser(id=user.user_id(),
                                 identity=user.user_id(),
                                 email=user.email())
+                myuser.timeline.append(user.user_id())
                 myuser.put()
-
             # taskboard_user_ref = MyUser.get_by_id(myuser_key.id())
             # taskboard_user_keys = taskboard_user_ref.td_key
 
@@ -100,6 +100,20 @@ class Timeline(webapp2.RequestHandler):
         else:
             url = users.create_login_url(self.request.uri)
             login_status = 'Login'
+
+        timeline = []
+
+        # GET ALL TIMELINE MEMBERS
+        for i, followers in enumerate(myuser.timeline):
+            timeline.append(followers)
+
+        timeline_posts = []
+
+        # GET ALL TIMELINE POSTS
+        for i in timeline:
+            for j in MyUser.get_by_id(i).users_posts_key:
+                timeline_posts.append(j)
+
 
 
         template_values = {
@@ -112,7 +126,8 @@ class Timeline(webapp2.RequestHandler):
             'upload_url': blobstore.create_upload_url('/upload'),
             'all_posts': myuser.users_posts_key,
             'Post': Post,
-            'MyUser': MyUser
+            'MyUser': MyUser,
+            'timeline_posts': timeline_posts
         }
 
         template = JINJA_ENVIRONMENT.get_template('timeline.html')

@@ -25,7 +25,7 @@ class Search(webapp2.RequestHandler):
         user = users.get_current_user()
 
         if user:
-            url = users.create_logout_url(self.request.uri)
+            url = users.create_logout_url('/')
             login_status = 'Logout'
         else:
             url = users.create_login_url(self.request.uri)
@@ -37,7 +37,8 @@ class Search(webapp2.RequestHandler):
             'user': user,
             'url': url,
             'login_status': login_status,
-            'total_query' : total_query,
+            'total_query': total_query,
+            'user_email': user.email()
         }
 
         template = JINJA_ENVIRONMENT.get_template('search.html')
@@ -58,11 +59,11 @@ class Search(webapp2.RequestHandler):
             url = users.create_login_url(self.request.uri)
             login_status = 'Login'
 
-        idd = self.request.get('id')
-        user_profile_key = ndb.Key(urlsafe=idd)
-        user_profile_id = user_profile_key.id()
-
-        user_profile_deets = ndb.Key('MyUser', user_profile_id).get()
+        # idd = self.request.get('id')
+        # user_profile_key = ndb.Key(urlsafe=idd)
+        # user_profile_id = user_profile_key.id()
+        #
+        # user_profile_deets = ndb.Key('MyUser', user_profile_id).get()
 
         action = self.request.get('button')
         count = 0
@@ -73,16 +74,16 @@ class Search(webapp2.RequestHandler):
         # SEARCH FOR USERS
         user_search = MyUser.query().fetch()
 
-        name_query = MyUser.query(MyUser.email == username_search).get()
+        total_query = MyUser.query(MyUser.email == username_search).fetch()
         # self.response.write(name_query)
 
         template_values = {
             'user': user,
             'url': url,
             'login_status': login_status,
-            'name_query': name_query,
-            'user_profile_deets': user_profile_deets,
-            'idd': idd,
+            'total_query': total_query,
+            # 'user_profile_deets': user_profile_deets,
+            # 'idd': idd,
         }
 
         template = JINJA_ENVIRONMENT.get_template('search.html')

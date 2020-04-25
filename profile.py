@@ -199,12 +199,33 @@ class OtherUsersProfile(webapp2.RequestHandler):
             # GET NEW FOLLWER DETAILS
             new_follower = ndb.Key('MyUser', user_info).get()
 
-            # PUT NEW FOLLOWER IN USER'S FOLLOWES PAGE
+            # PUT NEW FOLLOWER IN USER'S FOLLOWERS PAGE
             user_profile_deets.followers.append(new_follower.key.id())
             user_profile_deets.put()
 
             # UPDATE THE USERS PROFILE TO REFLECT THE NEW ACCOUNT THAT HAS JUST BEEN FOLLOWED
             new_follower.following.append(user_profile_deets.key.id())
+            new_follower.timeline.append(user_profile_deets.key.id())
+            new_follower.put()
+
+            self.redirect('/user_profile?id=' + str(idd))
+
+        if action == 'Unfollow':
+            user_info = self.request.get('user_info')
+
+            # UNFOLLOW USER
+            for i, followers in enumerate(user_profile_deets.followers):
+                if followers == user_info:
+                    del user_profile_deets.followers[i]
+
+            user_profile_deets.put()
+
+            # GET CURRENT USER DETAILS
+            new_follower = ndb.Key('MyUser', user_info).get()
+
+            # UPDATE THE USERS PROFILE TO REFLECT THE NEW ACCOUNT THAT HAS JUST BEEN UNFOLLOWED
+            new_follower.following.remove(user_profile_deets.key.id())
+            new_follower.timeline.remove(user_profile_deets.key.id())
             new_follower.put()
 
             self.redirect('/user_profile?id=' + str(idd))

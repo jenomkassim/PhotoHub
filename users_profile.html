@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Profile - InstaHub</title>
+    <title>User Profile - InstaHub</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/sidebar.css" />
 
@@ -58,10 +58,10 @@
                                 <hr>
                                 <!--<p>Contact Information</p>-->
 
-                                <div>
-                                    <span class="lead font-weight-bold" style="font-size: 14px;">Username</span>
-                                    <p class="lead" style="color: black;">yerohafsat@gmail.com</p>
-                                </div>
+<!--                                <div>-->
+<!--                                    <span class="lead font-weight-bold" style="font-size: 14px;">Username</span>-->
+<!--                                    <p class="lead" style="color: black;">yerohafsat@gmail.com</p>-->
+<!--                                </div>-->
 
                                 <div>
                                     <span class="lead font-weight-bold" style="font-size: 14px;">Email Address</span>
@@ -81,12 +81,14 @@
                                 <div>
                                     {% if user_id in followers_id %}
                                     <form action="/user_profile?id={{ user_profile_deets.key.urlsafe() }}" method="post">
-                                        <input type="text" name="user_info" value="{{ user.user_id() }}">
+                                        <input type="text" name="user_info" value="{{ user.user_id() }}" class="d-none">
                                         <input type="submit" class="btn btn-danger form-control" name="button" value="Unfollow">
                                     </form>
+                                    {% elif user_email == user_profile_deets.email %}
+
                                     {% else %}
                                     <form action="/user_profile?id={{ user_profile_deets.key.urlsafe() }}" method="post">
-                                        <input type="text" name="user_info" value="{{ user.user_id() }}">
+                                        <input type="text" name="user_info" value="{{ user.user_id() }}" class="d-none">
                                         <input type="submit" class="btn btn-success form-control" name="button" value="Follow">
                                     </form>
                                     {% endif %}
@@ -116,9 +118,9 @@
                                             <a class="nav-link" id="pills-transactions" data-toggle="pill" href="#pills-transactions-tab" role="tab" aria-controls="pills-transactions" aria-selected="false">Followers</a>
                                         </li>
 
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="pills-add-info" href="#pills-add-info-tab" data-toggle="pill" role="tab" aria-controls="pills-add-info" aria-selected="false">Additional Info</a>
-                                        </li>
+<!--                                        <li class="nav-item">-->
+<!--                                            <a class="nav-link" id="pills-add-info" href="#pills-add-info-tab" data-toggle="pill" role="tab" aria-controls="pills-add-info" aria-selected="false">Additional Info</a>-->
+<!--                                        </li>-->
                                     </ul>
 
                                     <div class="tab-content" id="pills-tabContent">
@@ -175,32 +177,32 @@
                                         </div>
 
                                         <!-- ADDITIONAL INFO TAB -->
-                                        <div class="tab-pane fade" id="pills-add-info-tab" role="tabpanel" aria-labelledby="pills-add-info">
-                                            <hr>
+<!--                                        <div class="tab-pane fade" id="pills-add-info-tab" role="tabpanel" aria-labelledby="pills-add-info">-->
+<!--                                            <hr>-->
 
-                                            <div>
-                                                <span>Bank Verification Number</span>
-                                                <p style="color: black;">34557899001</p>
-                                            </div>
+<!--                                            <div>-->
+<!--                                                <span>Bank Verification Number</span>-->
+<!--                                                <p style="color: black;">34557899001</p>-->
+<!--                                            </div>-->
 
-                                            <div>
-                                                <span>Referee</span>
-                                                <p style="color: black;">Mr Dele Lawal</p>
-                                            </div>
+<!--                                            <div>-->
+<!--                                                <span>Referee</span>-->
+<!--                                                <p style="color: black;">Mr Dele Lawal</p>-->
+<!--                                            </div>-->
 
-                                            <div>
-                                                <span>Referee Phone No</span>
-                                                <p style="color: black;">+234 803 736 1111</p>
-                                            </div>
+<!--                                            <div>-->
+<!--                                                <span>Referee Phone No</span>-->
+<!--                                                <p style="color: black;">+234 803 736 1111</p>-->
+<!--                                            </div>-->
 
-                                            <div>
-                                                <span>Referee Address</span>
-                                                <p style="color: black;">56 Mobolaji Bank Anthony Way</p>
-                                            </div>
+<!--                                            <div>-->
+<!--                                                <span>Referee Address</span>-->
+<!--                                                <p style="color: black;">56 Mobolaji Bank Anthony Way</p>-->
+<!--                                            </div>-->
 
-                                            <hr>
+<!--                                            <hr>-->
 
-                                        </div>
+<!--                                        </div>-->
 
                                     </div>
                                 </div>
