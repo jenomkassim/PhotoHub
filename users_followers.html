@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile - InstaHub</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/sidebar.css" />
+
+</head>
+
+<body>
+
+ <div class="wrapper">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+        <div class="logo-style">
+            <img src="img/logo.png" class="d-block mx-auto" height="100"/>
+            <div class="text-center" style="margin-top: 20px;">
+                            <button type="button" style="padding: 7px 15px;" class="btn btn-danger" data-toggle="modal" data-target="#newPost">
+                                Add New Post
+                            </button>
+                        </div>
+        </div>
+
+
+        <div class="sidebar-nav" style="margin-top: 40px;">
+
+            <ul class="list-unstyled components">
+
+                <li > <a href="/">Timeline</a> </li>
+                <li> <a href="/profile">Profile</a> </li>
+                <li> <a href="/search">Search</a> </li>
+                <li> <a href="{{ url }}">{{ login_status }}</a> </li>
+
+            </ul>
+
+        </div>
+
+
+
+    </nav>
+
+
+
+            <!-- Page Content  -->
+            <div id="content">
+
+                <div>
+
+                    <div class="content-wrapper">
+
+                        <div class="row mt-5" style="padding-left: 50px;">
+
+                            <!-- LEFT SIDE -->
+
+                            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12 profile-box " style="padding: 25px; height: 100%;">
+                                <img src="img/avatar.png" class="d-block mx-auto" style="width: 130px; height: 130px;">
+                                <hr>
+                                <!--<p>Contact Information</p>-->
+
+<!--                                <div>-->
+<!--                                    <span class="lead font-weight-bold" style="font-size: 14px;">Username</span>-->
+<!--                                    <p class="lead" style="color: black;">yerohafsat@gmail.com</p>-->
+<!--                                </div>-->
+
+                                <div>
+                                    <span class="lead font-weight-bold" style="font-size: 14px;">Email Address</span>
+                                    <p class="lead" style="color: black;">{{ user_profile_deets.email }}</p>
+                                </div>
+
+                                <div>
+                                    <span class="lead font-weight-bold" style="font-size: 14px;">Following</span>
+                                    <p class="lead" style="color: black;">{{ following_count }}</p>
+                                </div>
+
+                                <div>
+                                    <span class="lead font-weight-bold" style="font-size: 14px;">Followers</span>
+                                    <p class="lead" style="color: black;">{{ followers_count }}</p>
+                                </div>
+
+                                <div>
+                                    {% if user_id in followers_id %}
+                                    <form action="/user_profile?id={{ user_profile_deets.key.urlsafe() }}" method="post">
+                                        <input type="text" name="user_info" value="{{ user.user_id() }}" class="d-none">
+                                        <input type="submit" class="btn btn-danger form-control" name="button" value="Unfollow">
+                                    </form>
+                                    {% elif user_email == user_profile_deets.email %}
+
+                                    {% else %}
+                                    <form action="/user_profile?id={{ user_profile_deets.key.urlsafe() }}" method="post">
+                                        <input type="text" name="user_info" value="{{ user.user_id() }}" class="d-none">
+                                        <input type="submit" class="btn btn-success form-control" name="button" value="Follow">
+                                    </form>
+                                    {% endif %}
+                                </div>
+
+                                <hr>
+
+                            </div>
+
+                            <div style="padding: 0 10px;"></div>
+
+                            <!-- RIGHT SIDE -->
+
+                            <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12 profile-box-flat" style="padding: 25px;">
+
+                                <div>
+                                    <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="pills-transactions" data-toggle="pill" href="#pills-transactions-tab" role="tab" aria-controls="pills-transactions" aria-selected="false">Followers</a>
+                                        </li>
+
+                                    </ul>
+
+                                    <div class="tab-content" id="pills-tabContent">
+
+                                        <!-- ACTIVITY TAB -->
+                                        <div class="tab-pane fade" id="pills-activity-tab" role="tabpanel" aria-labelledby="pills-transactions">
+
+                                            {% for i in following_id %}
+                                                <p>{{ MyUser.get_by_id(i).email }}</p>
+                                            {% endfor %}
+
+                                        </div>
+
+                                        <!-- TRANSACTION TAB -->
+                                        <div class="tab-pane fade show active" id="pills-transactions-tab" role="tabpanel" aria-labelledby="pills-transactions">
+
+                                            {% for i in followers_id %}
+                                                <p>{{ MyUser.get_by_id(i).email }}</p>
+                                            {% endfor %}
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.bundle.js"></script>
+</body>
+</html>

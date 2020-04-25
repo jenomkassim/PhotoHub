@@ -230,7 +230,145 @@ class OtherUsersProfile(webapp2.RequestHandler):
 
             self.redirect('/user_profile?id=' + str(idd))
 
-            # self.response.write(user_profile_deets.key.id())
+
+class UsersFollowers(webapp2.RequestHandler):
+    def get(self):
+        self.response.headers['Content-Type'] = 'text/html'
+
+        url = ''
+        login_status = ''
+
+        user = users.get_current_user()
+
+        if user:
+            url = users.create_logout_url('/')
+            login_status = 'Logout'
+
+            myuser_key = ndb.Key('MyUser', user.user_id())
+            myuser = myuser_key.get()
+
+        else:
+            url = users.create_login_url(self.request.uri)
+            login_status = 'Login'
+
+        idd = self.request.get('id')
+        user_profile_key = ndb.Key(urlsafe=idd)
+        user_profile_id = user_profile_key.id()
+
+        user_profile_deets = ndb.Key('MyUser', user_profile_id).get()
+
+        followers_id = []
+        following_id = []
+
+        for f in user_profile_deets.followers:
+            followers_id.append(f)
+
+        for fl in user_profile_deets.following:
+            following_id.append(fl)
+
+        # FOLLOWERS COUNT
+        followers_count = 0
+
+        for i in user_profile_deets.followers:
+            followers_count = followers_count + 1
+
+        # FOLLOWING COUNT
+        following_count = 0
+
+        for i in user_profile_deets.following:
+            following_count = following_count + 1
+
+        template_values = {
+            'url': url,
+            'user': user,
+            'login_status': login_status,
+            'user_email': user.email(),
+            'myuser_key': myuser_key,
+            'upload_url': blobstore.create_upload_url('/upload'),
+            'all_posts': user_profile_deets.users_posts_key,
+            'Post': Post,
+            'MyUser': MyUser,
+            'myuser': myuser,
+            'followers_count': followers_count,
+            'following_count': following_count,
+            'user_profile_deets': user_profile_deets,
+            'user_id': user.user_id(),
+            'followers_id': followers_id,
+            'following_id': following_id
+        }
+
+        template = JINJA_ENVIRONMENT.get_template('users_followers.html')
+        self.response.write(template.render(template_values))
+
+
+class UsersFollowing(webapp2.RequestHandler):
+    def get(self):
+        self.response.headers['Content-Type'] = 'text/html'
+
+        url = ''
+        login_status = ''
+
+        user = users.get_current_user()
+
+        if user:
+            url = users.create_logout_url('/')
+            login_status = 'Logout'
+
+            myuser_key = ndb.Key('MyUser', user.user_id())
+            myuser = myuser_key.get()
+
+        else:
+            url = users.create_login_url(self.request.uri)
+            login_status = 'Login'
+
+        idd = self.request.get('id')
+        user_profile_key = ndb.Key(urlsafe=idd)
+        user_profile_id = user_profile_key.id()
+
+        user_profile_deets = ndb.Key('MyUser', user_profile_id).get()
+
+        followers_id = []
+        following_id = []
+
+        for f in user_profile_deets.followers:
+            followers_id.append(f)
+
+        for fl in user_profile_deets.following:
+            following_id.append(fl)
+
+        # FOLLOWERS COUNT
+        followers_count = 0
+
+        for i in user_profile_deets.followers:
+            followers_count = followers_count + 1
+
+        # FOLLOWING COUNT
+        following_count = 0
+
+        for i in user_profile_deets.following:
+            following_count = following_count + 1
+
+        template_values = {
+            'url': url,
+            'user': user,
+            'login_status': login_status,
+            'user_email': user.email(),
+            'myuser_key': myuser_key,
+            'upload_url': blobstore.create_upload_url('/upload'),
+            'all_posts': user_profile_deets.users_posts_key,
+            'Post': Post,
+            'MyUser': MyUser,
+            'myuser': myuser,
+            'followers_count': followers_count,
+            'following_count': following_count,
+            'user_profile_deets': user_profile_deets,
+            'user_id': user.user_id(),
+            'followers_id': followers_id,
+            'following_id': following_id
+        }
+
+        template = JINJA_ENVIRONMENT.get_template('users_following.html')
+        self.response.write(template.render(template_values))
 
 
 
