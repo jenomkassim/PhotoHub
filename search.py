@@ -5,6 +5,8 @@ import webapp2
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
+from myuser import MyUser
+
 
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -29,18 +31,13 @@ class Search(webapp2.RequestHandler):
             url = users.create_login_url(self.request.uri)
             login_status = 'Login'
 
-
-        count = 0
-
-        # for i in total_query:
-        #     count = count + 1
+        total_query = MyUser.query()
 
         template_values = {
             'user': user,
             'url': url,
             'login_status': login_status,
-            # 'total_query': total_query,
-            'count': count
+            'total_query' : total_query,
         }
 
         template = JINJA_ENVIRONMENT.get_template('search.html')
@@ -51,6 +48,7 @@ class Search(webapp2.RequestHandler):
 
         url = ''
         login_status = ''
+        username_search = ''
         user = users.get_current_user()
 
         if user:
@@ -60,29 +58,34 @@ class Search(webapp2.RequestHandler):
             url = users.create_login_url(self.request.uri)
             login_status = 'Login'
 
-        action = self.request.get('Search')
+        idd = self.request.get('id')
+        user_profile_key = ndb.Key(urlsafe=idd)
+        user_profile_id = user_profile_key.id()
+
+        user_profile_deets = ndb.Key('MyUser', user_profile_id).get()
+
+        action = self.request.get('button')
         count = 0
 
         if action == 'Search':
-            name = self.request.get('vehicleName')
+            username_search = self.request.get('search')
 
-        car_query = Vehicles.query()
+        # SEARCH FOR USERS
+        user_search = MyUser.query().fetch()
 
+        name_query = MyUser.query(MyUser.email == username_search).get()
+        # self.response.write(name_query)
 
+        template_values = {
+            'user': user,
+            'url': url,
+            'login_status': login_status,
+            'name_query': name_query,
+            'user_profile_deets': user_profile_deets,
+            'idd': idd,
+        }
 
-        if len(name) == 0 and len(manufacturer) == 0:
-            total_query = ndb.get_multi(set(year_query).intersection(battery_query).intersection(range_query)
-                                        .intersection(cost_query).intersection(power_query))
-            for i in total_query:
-                count = count + 1
+        template = JINJA_ENVIRONMENT.get_template('search.html')
+        self.response.write(template.render(template_values))
 
-        else:
-            name_query = Vehicles.query(Vehicles.name == name).fetch(keys_only=True)
-            manufacturer_query = Vehicles.query(Vehicles.manufacturer == manufacturer).fetch(keys_only=True)
-            total_query = ndb.get_multi(set(name_query).intersection(manufacturer_query).intersection(year_query)
-                                        .intersection(battery_query).intersection(range_query).intersection(cost_query)
-                                        .intersection(power_query))
-
-            for i in total_query:
-                count = count + 1
 

@@ -64,6 +64,18 @@ a:focus {
     transition: all 0.3s;
 }
 
+#right-side {
+    width: 300px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    z-index: 999;
+    background: #2c3e50;
+    color: #ffffff;
+    transition: all 0.3s;
+}
+
 /*#sidebar.active {*/
     /*margin-left: -200px;*/
 /*}*/

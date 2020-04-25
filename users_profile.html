@@ -28,7 +28,7 @@
             <ul class="list-unstyled components">
 
                 <li > <a href="/">Timeline</a> </li>
-                <li class="active"> <a href="/profile">Profile</a> </li>
+                <li> <a href="/profile">Profile</a> </li>
                 <li> <a href="/search">Search</a> </li>
                 <li> <a href="{{ url }}">{{ login_status }}</a> </li>
 
@@ -65,7 +65,7 @@
 
                                 <div>
                                     <span class="lead font-weight-bold" style="font-size: 14px;">Email Address</span>
-                                    <p class="lead" style="color: black;">{{ myuser.email }}</p>
+                                    <p class="lead" style="color: black;">{{ user_profile_deets.email }}</p>
                                 </div>
 
                                 <div>
@@ -76,6 +76,20 @@
                                 <div>
                                     <span class="lead font-weight-bold" style="font-size: 14px;">Followers</span>
                                     <p class="lead" style="color: black;">{{ followers_count }}</p>
+                                </div>
+
+                                <div>
+                                    {% if user_id in followers_id %}
+                                    <form action="/user_profile?id={{ user_profile_deets.key.urlsafe() }}" method="post">
+                                        <input type="text" name="user_info" value="{{ user.user_id() }}">
+                                        <input type="submit" class="btn btn-danger form-control" name="button" value="Unfollow">
+                                    </form>
+                                    {% else %}
+                                    <form action="/user_profile?id={{ user_profile_deets.key.urlsafe() }}" method="post">
+                                        <input type="text" name="user_info" value="{{ user.user_id() }}">
+                                        <input type="submit" class="btn btn-success form-control" name="button" value="Follow">
+                                    </form>
+                                    {% endif %}
                                 </div>
 
                                 <hr>
@@ -145,7 +159,7 @@
                                         <!-- ACTIVITY TAB -->
                                         <div class="tab-pane fade" id="pills-activity-tab" role="tabpanel" aria-labelledby="pills-transactions">
 
-                                             {% for i in following_id %}
+                                            {% for i in following_id %}
                                                 <p>{{ MyUser.get_by_id(i).email }}</p>
                                             {% endfor %}
 

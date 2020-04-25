@@ -8,6 +8,7 @@ from timeline import Timeline
 from timeline import UploadHandler
 from timeline import ViewPhotoHandler
 from profile import Profile
+from profile import OtherUsersProfile
 from search import Search
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -53,4 +54,5 @@ app = webapp2.WSGIApplication([
     ('/view_photo/([^/]+)?', ViewPhotoHandler),
     ('/profile', Profile),
     ('/search', Search),
+    ('/user_profile', OtherUsersProfile),
 ], debug=True)
