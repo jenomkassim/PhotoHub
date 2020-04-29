@@ -65,17 +65,23 @@
 
                                 <div>
                                     <span class="lead font-weight-bold" style="font-size: 14px;">Email Address</span>
-                                    <p class="lead" style="color: black;">{{ user_profile_deets.email }}</p>
+                                    <a href="/user_profile?id={{ user_profile_deets.key.urlsafe() }}">
+                                        <p class="lead" style="color: black;">{{ user_profile_deets.email }}</p>
+                                    </a>
                                 </div>
 
                                 <div>
                                     <span class="lead font-weight-bold" style="font-size: 14px;">Following</span>
-                                    <p class="lead" style="color: black;">{{ following_count }}</p>
+                                    <a href="/user_following?id={{ user_profile_deets.key.urlsafe() }}">
+                                        <p class="lead" style="color: black;">{{ following_count }}</p>
+                                    </a>
                                 </div>
 
                                 <div>
                                     <span class="lead font-weight-bold" style="font-size: 14px;">Followers</span>
-                                    <p class="lead" style="color: black;">{{ followers_count }}</p>
+                                    <a href="/user_followers?id={{ user_profile_deets.key.urlsafe() }}">
+                                        <p class="lead" style="color: black;">{{ followers_count }}</p>
+                                    </a>
                                 </div>
 
                                 <div>

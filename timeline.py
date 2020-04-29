@@ -10,6 +10,7 @@ from google.appengine.ext.webapp import blobstore_handlers
 from myuser import MyUser
 from post_images import PostImages
 from posts import Post
+from comments import Comments
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -50,21 +51,10 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
         # self.redirect('/view_photo/%s' % upload.key())
 
 
-class DownloadHandler(blobstore_handlers.BlobstoreDownloadHandler):
-    def get(self):
-        index = int(self.request.get('index'))
-        collection_key = ndb.Key('BlobCollection', 1)
-        collection = collection_key.get()
-        self.send_blob(collection.blobs[index])
-
-
 # [START download_handler]
 class ViewPhotoHandler(blobstore_handlers.BlobstoreDownloadHandler):
     def get(self, photo_key):
-        if not blobstore.get(photo_key):
-            self.error(404)
-        else:
-            self.send_blob(photo_key)
+        self.send_blob(photo_key)
 # [END download_handler]
 
 
@@ -115,7 +105,6 @@ class Timeline(webapp2.RequestHandler):
                 timeline_posts.append(j)
 
 
-
         template_values = {
             'url': url,
             'user': user,
@@ -139,6 +128,28 @@ class Timeline(webapp2.RequestHandler):
         # GET USER KEY
         user = users.get_current_user()
         myuser_key = ndb.Key('MyUser', user.user_id())
+
+
+class Comment(webapp2.RequestHandler):
+    def post(self):
+        user = users.get_current_user()
+        myuser_key = ndb.Key('MyUser', user.user_id())
+        myuser = myuser_key.get()
+
+        post_id = int(self.request.get('post_id'))
+
+        # GET POST DETAILS
+        post_details = Post.get_by_id(post_id)
+        self.response.write(post_details)
+
+        new_comment = Comments(
+            comment=self.request.get('comment'),
+            commenter=myuser_key.id()
+        )
+
+        post_details.comments.append(new_comment)
+        post_details.put()
+        self.redirect('/')
 
 
 

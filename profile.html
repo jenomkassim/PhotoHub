@@ -94,17 +94,6 @@
                                             <a class="nav-link active" id="pills-overview" href="#pills-overview-tab" data-toggle="pill" role="tab" aria-controls="pills-overview" aria-selected="true">Posts</a>
                                         </li>
 
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="pills-activity" data-toggle="pill" href="#pills-activity-tab" role="tab" aria-controls="pills-transactions" aria-selected="false">Following</a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="pills-transactions" data-toggle="pill" href="#pills-transactions-tab" role="tab" aria-controls="pills-transactions" aria-selected="false">Followers</a>
-                                        </li>
-
-<!--                                        <li class="nav-item">-->
-<!--                                            <a class="nav-link" id="pills-add-info" href="#pills-add-info-tab" data-toggle="pill" role="tab" aria-controls="pills-add-info" aria-selected="false">Additional Info</a>-->
-<!--                                        </li>-->
                                     </ul>
 
                                     <div class="tab-content" id="pills-tabContent">
@@ -141,52 +130,6 @@
                                             {% endfor %}
 
                                         </div>
-
-                                        <!-- ACTIVITY TAB -->
-                                        <div class="tab-pane fade" id="pills-activity-tab" role="tabpanel" aria-labelledby="pills-transactions">
-
-                                             {% for i in following_id %}
-                                                <p>{{ MyUser.get_by_id(i).email }}</p>
-                                            {% endfor %}
-
-                                        </div>
-
-                                        <!-- TRANSACTION TAB -->
-                                        <div class="tab-pane fade" id="pills-transactions-tab" role="tabpanel" aria-labelledby="pills-transactions">
-
-                                            {% for i in followers_id %}
-                                                <p>{{ MyUser.get_by_id(i).email }}</p>
-                                            {% endfor %}
-
-                                        </div>
-
-                                        <!-- ADDITIONAL INFO TAB -->
-<!--                                        <div class="tab-pane fade" id="pills-add-info-tab" role="tabpanel" aria-labelledby="pills-add-info">-->
-<!--                                            <hr>-->
-
-<!--                                            <div>-->
-<!--                                                <span>Bank Verification Number</span>-->
-<!--                                                <p style="color: black;">34557899001</p>-->
-<!--                                            </div>-->
-
-<!--                                            <div>-->
-<!--                                                <span>Referee</span>-->
-<!--                                                <p style="color: black;">Mr Dele Lawal</p>-->
-<!--                                            </div>-->
-
-<!--                                            <div>-->
-<!--                                                <span>Referee Phone No</span>-->
-<!--                                                <p style="color: black;">+234 803 736 1111</p>-->
-<!--                                            </div>-->
-
-<!--                                            <div>-->
-<!--                                                <span>Referee Address</span>-->
-<!--                                                <p style="color: black;">56 Mobolaji Bank Anthony Way</p>-->
-<!--                                            </div>-->
-
-<!--                                            <hr>-->
-
-<!--                                        </div>-->
 
                                     </div>
                                 </div>

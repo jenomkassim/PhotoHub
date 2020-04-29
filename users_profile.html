@@ -65,7 +65,9 @@
 
                                 <div>
                                     <span class="lead font-weight-bold" style="font-size: 14px;">Email Address</span>
-                                    <p class="lead" style="color: black;">{{ user_profile_deets.email }}</p>
+                                    <a href="/user_profile?id={{ user_profile_deets.key.urlsafe() }}">
+                                        <p class="lead" style="color: black;">{{ user_profile_deets.email }}</p>
+                                    </a>
                                 </div>
 
                                 <div>
@@ -113,18 +115,6 @@
                                         <li class="nav-item">
                                             <a class="nav-link active" id="pills-overview" href="#pills-overview-tab" data-toggle="pill" role="tab" aria-controls="pills-overview" aria-selected="true">Posts</a>
                                         </li>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="pills-activity" data-toggle="pill" href="#pills-activity-tab" role="tab" aria-controls="pills-transactions" aria-selected="false">Following</a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="pills-transactions" data-toggle="pill" href="#pills-transactions-tab" role="tab" aria-controls="pills-transactions" aria-selected="false">Followers</a>
-                                        </li>
-
-<!--                                        <li class="nav-item">-->
-<!--                                            <a class="nav-link" id="pills-add-info" href="#pills-add-info-tab" data-toggle="pill" role="tab" aria-controls="pills-add-info" aria-selected="false">Additional Info</a>-->
-<!--                                        </li>-->
                                     </ul>
 
                                     <div class="tab-content" id="pills-tabContent">
@@ -150,11 +140,29 @@
                                                     <img src="img/share.png" class="img-fluid pl-4" style="height: 15px; margin-top: -5px"> <span class="lead" style="font-size: 15px">Share</span>
                                                 </div>
 
-                                                <div class="col-12 p-3">
+                                                <div class="col-12 pt-3 pr-3 pl-3">
                                                     <p>
                                                         <span class="font-weight-bold">{{ MyUser.get_by_id(x.id()).email }} </span>
                                                         <span class="lead" style="font-size: 17px">{{ Post.get_by_id(i.id()).caption }}</span>
                                                     </p>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    {% for i in Post.get_by_id(i.id()).comments[::-1] %}
+                                                    <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
+                                                    <span class="lead" style="font-size: 16px;">{{i.comment}}</span>
+                                                    <br/>
+                                                    {% endfor %}
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <form action="/comment" method="post">
+                                                          <div class="form-group">
+                                                              <input name="post_id" value="{{ i.id()}}" type="text" class="d-none" />
+                                                            <textarea class="form-control" placeholder="Add a Comment" rows="2" style="border-radius: 10px;" name="comment" maxlength="200" required></textarea>
+                                                          </div>
+                                                        <input type="submit" value="Comment">
+                                                    </form>
                                                 </div>
 
                                             </div>
@@ -162,51 +170,6 @@
 
                                         </div>
 
-                                        <!-- ACTIVITY TAB -->
-                                        <div class="tab-pane fade" id="pills-activity-tab" role="tabpanel" aria-labelledby="pills-transactions">
-
-                                            {% for i in following_id %}
-                                                <p>{{ MyUser.get_by_id(i).email }}</p>
-                                            {% endfor %}
-
-                                        </div>
-
-                                        <!-- TRANSACTION TAB -->
-                                        <div class="tab-pane fade" id="pills-transactions-tab" role="tabpanel" aria-labelledby="pills-transactions">
-
-                                            {% for i in followers_id %}
-                                                <p>{{ MyUser.get_by_id(i).email }}</p>
-                                            {% endfor %}
-
-                                        </div>
-
-                                        <!-- ADDITIONAL INFO TAB -->
-<!--                                        <div class="tab-pane fade" id="pills-add-info-tab" role="tabpanel" aria-labelledby="pills-add-info">-->
-<!--                                            <hr>-->
-
-<!--                                            <div>-->
-<!--                                                <span>Bank Verification Number</span>-->
-<!--                                                <p style="color: black;">34557899001</p>-->
-<!--                                            </div>-->
-
-<!--                                            <div>-->
-<!--                                                <span>Referee</span>-->
-<!--                                                <p style="color: black;">Mr Dele Lawal</p>-->
-<!--                                            </div>-->
-
-<!--                                            <div>-->
-<!--                                                <span>Referee Phone No</span>-->
-<!--                                                <p style="color: black;">+234 803 736 1111</p>-->
-<!--                                            </div>-->
-
-<!--                                            <div>-->
-<!--                                                <span>Referee Address</span>-->
-<!--                                                <p style="color: black;">56 Mobolaji Bank Anthony Way</p>-->
-<!--                                            </div>-->
-
-<!--                                            <hr>-->
-
-<!--                                        </div>-->
 
                                     </div>
                                 </div>

@@ -1,4 +1,5 @@
 from google.appengine.ext import ndb
+from comments import Comments
 
 
 class Post(ndb.Model):
@@ -8,4 +9,4 @@ class Post(ndb.Model):
     caption = ndb.StringProperty()
     likes = ndb.StringProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
-    comments = ndb.StringProperty(repeated=True)
+    comments = ndb.StructuredProperty(Comments, repeated=True)

@@ -12,6 +12,7 @@ from profile import OtherUsersProfile
 from profile import UsersFollowers
 from profile import UsersFollowing
 from search import Search
+from timeline import Comment
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -59,4 +60,5 @@ app = webapp2.WSGIApplication([
     ('/user_profile', OtherUsersProfile),
     ('/user_followers', UsersFollowers),
     ('/user_following', UsersFollowing),
+    ('/comment', Comment),
 ], debug=True)
