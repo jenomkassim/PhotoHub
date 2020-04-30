@@ -11,24 +11,43 @@
 <body>
 
  <div class="wrapper">
-            <!-- Sidebar  -->
-            <nav id="sidebar">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
         <div class="logo-style">
-            <img src="img/logo.png" class="d-block mx-auto" height="100"/>
-            <div class="text-center" style="margin-top: 20px;">
-                            <button type="button" style="padding: 7px 15px;" class="btn btn-danger" data-toggle="modal" data-target="#newPost">
-                                Add New Post
-                            </button>
-                        </div>
+<!--            <img src="img/logo.png" class="d-block mx-auto" height="100"/>-->
+            <img src="img/avatar.png" class="d-block mx-auto mt-4" height="100"/>
+            <div class="row">
+                <div class="col text-center mt-3">
+                    <span class="lead" style="color: #dfe6e9">{{ user_email }}</span>
+                </div>
+            </div>
+            <div class="row p-4 mt-2">
+                <div class="col text-center">
+                    <span class="font-weight-bold" style="color: white;">{{ current_user_post_count }}</span>
+                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Posts</p>
+                </div>
+                <div class="col text-center">
+                    <span class="font-weight-bold" style="color: white;">{{ current_user_followers_count }}</span>
+                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Followers</p>
+                </div>
+                <div class="col text-center">
+                    <span class="font-weight-bold" style="color: white;">{{ current_user_following_count }}</span>
+                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Following</p>
+                </div>
+            </div>
         </div>
 
 
-        <div class="sidebar-nav" style="margin-top: 40px;">
+        <div class="sidebar-nav">
 
             <ul class="list-unstyled components">
 
                 <li > <a href="/">Timeline</a> </li>
-                <li> <a href="/profile">Profile</a> </li>
+                {% if user_email == user_profile_deets.email %}
+                <li class="active"> <a href="#">Your Profile</a> </li>
+                {% else %}
+                <li class="active"> <a href="#"><span class="text-capitalize">{{ users_first_name}}'s</span> Profile</a> </li>
+                {% endif %}
                 <li> <a href="/search">Search</a> </li>
                 <li> <a href="{{ url }}">{{ login_status }}</a> </li>
 

@@ -27,18 +27,52 @@ class Search(webapp2.RequestHandler):
         if user:
             url = users.create_logout_url('/')
             login_status = 'Logout'
+
+            myuser_key = ndb.Key('MyUser', user.user_id())
+            myuser = myuser_key.get()
+
         else:
             url = users.create_login_url(self.request.uri)
             login_status = 'Login'
 
         total_query = MyUser.query()
 
+        followers_id = []
+        following_id = []
+
+        for f in myuser.followers:
+            followers_id.append(f)
+
+        for fl in myuser.following:
+            following_id.append(fl)
+
+        # FOLLOWERS COUNT
+        followers_count = 0
+
+        for i in myuser.followers:
+            followers_count = followers_count + 1
+
+        # FOLLOWING COUNT
+        following_count = 0
+
+        for i in myuser.following:
+            following_count = following_count + 1
+
+        # POST COUNT
+        post_count = 0
+        for i in myuser.users_posts_key:
+            post_count = post_count + 1
+
         template_values = {
             'user': user,
             'url': url,
             'login_status': login_status,
             'total_query': total_query,
-            'user_email': user.email()
+            'user_email': user.email(),
+            'user_email_for_search': user.email(),
+            'following_count': following_count,
+            'followers_count': followers_count,
+            'post_count': post_count
         }
 
         template = JINJA_ENVIRONMENT.get_template('search.html')
@@ -55,15 +89,13 @@ class Search(webapp2.RequestHandler):
         if user:
             url = users.create_logout_url(self.request.uri)
             login_status = 'Logout'
+
+            myuser_key = ndb.Key('MyUser', user.user_id())
+            myuser = myuser_key.get()
+
         else:
             url = users.create_login_url(self.request.uri)
             login_status = 'Login'
-
-        # idd = self.request.get('id')
-        # user_profile_key = ndb.Key(urlsafe=idd)
-        # user_profile_id = user_profile_key.id()
-        #
-        # user_profile_deets = ndb.Key('MyUser', user_profile_id).get()
 
         action = self.request.get('button')
         count = 0
@@ -72,18 +104,45 @@ class Search(webapp2.RequestHandler):
             username_search = self.request.get('search')
 
         # SEARCH FOR USERS
-        user_search = MyUser.query().fetch()
 
         total_query = MyUser.query(MyUser.email == username_search).fetch()
-        # self.response.write(name_query)
+
+        followers_id = []
+        following_id = []
+
+        for f in myuser.followers:
+            followers_id.append(f)
+
+        for fl in myuser.following:
+            following_id.append(fl)
+
+        # FOLLOWERS COUNT
+        followers_count = 0
+
+        for i in myuser.followers:
+            followers_count = followers_count + 1
+
+        # FOLLOWING COUNT
+        following_count = 0
+
+        for i in myuser.following:
+            following_count = following_count + 1
+
+        # POST COUNT
+        post_count = 0
+        for i in myuser.users_posts_key:
+            post_count = post_count + 1
+
 
         template_values = {
             'user': user,
             'url': url,
             'login_status': login_status,
             'total_query': total_query,
-            # 'user_profile_deets': user_profile_deets,
-            # 'idd': idd,
+            'user_email_for_search': user.email(),
+            'following_count': following_count,
+            'followers_count': followers_count,
+            'post_count': post_count
         }
 
         template = JINJA_ENVIRONMENT.get_template('search.html')

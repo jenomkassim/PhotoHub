@@ -16,21 +16,36 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="logo-style">
-            <img src="img/logo.png" class="d-block mx-auto" height="100"/>
-            <div class="text-center" style="margin-top: 20px;">
-                            <button type="button" style="padding: 7px 15px;" class="btn btn-danger" data-toggle="modal" data-target="#newPost">
-                                Add New Post
-                            </button>
-                        </div>
+<!--            <img src="img/logo.png" class="d-block mx-auto" height="100"/>-->
+            <img src="img/avatar.png" class="d-block mx-auto mt-4" height="100"/>
+            <div class="row">
+                <div class="col text-center mt-3">
+                    <span class="lead" style="color: #dfe6e9">{{ user_email }}</span>
+                </div>
+            </div>
+            <div class="row p-4 mt-2">
+                <div class="col text-center">
+                    <span class="font-weight-bold" style="color: white;">{{ post_count }}</span>
+                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Posts</p>
+                </div>
+                <div class="col text-center">
+                    <span class="font-weight-bold" style="color: white;">{{ followers_count }}</span>
+                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Followers</p>
+                </div>
+                <div class="col text-center">
+                    <span class="font-weight-bold" style="color: white;">{{ following_count }}</span>
+                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Following</p>
+                </div>
+            </div>
         </div>
 
 
-        <div class="sidebar-nav" style="margin-top: 40px;">
+        <div class="sidebar-nav" style="">
 
             <ul class="list-unstyled components">
 
                 <li class="active"> <a href="/">Timeline</a> </li>
-                <li> <a href="/profile">Profile</a> </li>
+<!--                <li> <a href="/profile">Profile</a> </li>-->
                 <li> <a href="/search">Search</a> </li>
                 <li> <a href="{{ url }}">{{ login_status }}</a> </li>
 
@@ -52,60 +67,86 @@
 
             <div class="content-wrapper p-4">
 
-
-                <!-- we will then list the blobs that we do have in the datastore available to us -->
-                {% for i in timeline_posts[::-1] %}
-                {% set x = Post.get_by_id(i.id()).creator %}
-                <div class="row box-card-timeline shadow-lg mt-3">
-                    <div class="col-12" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(255, 255, 255, 0)), url('/view_photo/{{ Post.get_by_id(i.id()).image_blob_key }}');
-                    height: 400px; width: 650px; background-size: cover; background-repeat: no-repeat; border-radius: 30px 30px 0px 0px;" >
-                        <p class="text-light p-3 lead">
-
-                        </p>
+                <div class="row">
+                    <div class="col">
+                        <h1 class="lead" style="font-size: 40px; font-weight: 500;">Timeline</h1>
                     </div>
-
-
-                    <div class="col-12 pt-3">
-                        <img src="img/like.png" class="img-fluid" style="height: 15px; margin-top: -5px"> <span class="lead" style="font-size: 15px">Like</span>
-                        <img src="img/comment.png" class="img-fluid pl-4" style="height: 15px; margin-top: -5px"> <span class="lead" style="font-size: 15px">Comment</span>
-                        <img src="img/share.png" class="img-fluid pl-4" style="height: 15px; margin-top: -5px"> <span class="lead" style="font-size: 15px">Share</span>
+                    <div class="col" style="margin-top: 10px;">
+                        <button type="button" style="padding: 7px 15px;" class="btn btn-danger float-right" data-toggle="modal" data-target="#newPost">
+                            Add New Post
+                        </button>
                     </div>
+                </div>
 
-                    <div class="col-12 pt-3 pr-3 pl-3">
-                        <p>
-                            <span class="font-weight-bold">{{ MyUser.get_by_id(x.id()).email }} </span>
-                            <span class="lead" style="font-size: 17px">{{ Post.get_by_id(i.id()).caption }}</span>
-                        </p>
-                    </div>
+                <div>
 
-                    <div class="col-12 mt-2">
-                        {% for i in Post.get_by_id(i.id()).comments[::-1] %}
-                        <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
-                        <span class="lead" style="font-size: 16px;">{{i.comment}}</span>
-                        <br/>
+                    <div class="row">
+
+                        {% for i in timeline_posts[::-1] %}
+                            {% set x = Post.get_by_id(i.id()).creator %}
+
+                        <div class="col-6">
+
+
+
+                            <div class="row box-card-timeline shadow-lg mt-3"  style="background-color: #000000; width: 100%">
+                                <div class="col-12" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(255, 255, 255, 0)), url('/view_photo/{{ Post.get_by_id(i.id()).image_blob_key }}');
+                                height: 400px; background-size: cover; background-repeat: no-repeat; border-radius: 30px 30px 0px 0px;" >
+                                    <p class="text-light p-3 lead">
+
+                                    </p>
+                                </div>
+
+
+                                <div class="col-12 pt-3">
+                                    <img src="img/comment.png" class="img-fluid pl-4" style="height: 15px; margin-top: -5px">
+                                    <span class="lead" style="font-size: 15px">Comment</span>
+                                </div>
+
+                                <div class="col-12 pt-3 pr-3 pl-3">
+                                    <p>
+                                        <span class="font-weight-bold">{{ MyUser.get_by_id(x.id()).email }} </span>
+                                        <span class="lead" style="font-size: 17px; color: lightgray">{{ Post.get_by_id(i.id()).caption }}</span>
+                                    </p>
+                                </div>
+
+                                <div class="col-12 mt-2">
+                                    {% for i in Post.get_by_id(i.id()).comments[::-1] %}
+                                    <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
+                                    <span class="lead" style="font-size: 16px;">{{i.comment}}</span>
+                                    <br/>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="col-12 mt-4">
+                                    <form action="/comment" method="post">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <div class="form-group form-inline">
+                                                      <input name="post_id" value="{{ i.id()}}" type="text" class="d-none" />
+                                                    <textarea class="form-control" placeholder="Add a Comment" rows="2" style="border-radius: 10px; width: 100%" name="comment" maxlength="200" required></textarea>
+                                                  </div>
+                                            </div>
+
+                                            <div class="col-2">
+                                                <input type="submit" value="Comment">
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+                                </div>
+                                </div>
+
+
+                        </div>
+
                         {% endfor %}
+
                     </div>
 
-                    <div class="col-12 mt-4">
-                        <form action="/comment" method="post">
-                            <div class="row">
-                                <div class="col-10">
-                                    <div class="form-group form-inline">
-                                          <input name="post_id" value="{{ i.id()}}" type="text" class="d-none" />
-                                        <textarea class="form-control" placeholder="Add a Comment" rows="2" style="border-radius: 10px; width: 100%" name="comment" maxlength="200" required></textarea>
-                                      </div>
-                                </div>
+                </div>
 
-                                <div class="col-2">
-                                    <input type="submit" value="Comment">
-                                </div>
-
-                            </div>
-
-                        </form>
-                    </div>
-                    </div>
-                {% endfor %}
 
             </div>
 
@@ -118,9 +159,9 @@
 
 
 <!--    RIGHT SIDE-->
-    <div id="right-side">
+<!--    <div id="right-side">-->
 
-    </div>
+<!--    </div>-->
 
 
 </div>

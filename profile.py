@@ -79,37 +79,6 @@ class Profile(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('profile.html')
         self.response.write(template.render(template_values))
 
-    def post(self):
-        self.response.headers['Content-Type'] = 'text/html'
-
-        # GET USER KEY
-        user = users.get_current_user()
-        myuser_key = ndb.Key('MyUser', user.user_id())
-
-        # GET NEW TASKBOARD NAME
-        taskboard_title = self.request.get('taskboard_name')
-
-        # CREATE NEW TASKBOARD
-
-        # Ask Datastore to allocate an ID.
-        new_id = ndb.Model.allocate_ids(size=1, parent=myuser_key)[0]
-
-        # Datastore returns us an integer ID that we can use to create the new taskboard key
-        new_taskboard_key = ndb.Key('TaskBoard', new_id, parent=myuser_key)
-
-        # Now we can put the values of the new task board into the TaskBoard Datastore
-        new_taskboard = TaskBoard(key=new_taskboard_key, creator=myuser_key, creator_name=user.email(),
-                                  name=taskboard_title, creator_id=user.user_id())
-        new_taskboard.members_id.append(myuser_key.id())
-        new_taskboard.put()
-
-        # We also have to pass the details of this task board to the MyUser datastore
-        # by retrieving the details of the user to update it by appending the task board key
-        new_taskboard_user_ref = MyUser.get_by_id(myuser_key.id())
-        new_taskboard_user_ref.td_key.append(new_taskboard.key)
-        new_taskboard_user_ref.put()
-        self.redirect('/timeline')
-
 
 class OtherUsersProfile(webapp2.RequestHandler):
     def get(self):
@@ -158,6 +127,41 @@ class OtherUsersProfile(webapp2.RequestHandler):
         for i in user_profile_deets.following:
             following_count = following_count + 1
 
+# -------------------------------------------------------------------------------------------------
+
+        current_user_followers_id = []
+        current_user_following_id = []
+
+        for f in myuser.followers:
+            current_user_followers_id.append(f)
+
+        for fl in myuser.following:
+            current_user_following_id.append(fl)
+
+        # FOLLOWERS COUNT
+        current_user_followers_count = 0
+
+        for i in myuser.followers:
+            current_user_followers_count = current_user_followers_count + 1
+
+        # FOLLOWING COUNT
+        current_user_following_count = 0
+
+        for i in myuser.following:
+            current_user_following_count = current_user_following_count + 1
+
+        # POST COUNT
+        current_user_post_count = 0
+        for i in myuser.users_posts_key:
+            current_user_post_count = current_user_post_count + 1
+
+#------------------------------------------------------------------------------------------------
+
+        # GET USERs NAME
+        users_first_name = user_profile_deets.email
+        users_first_name = users_first_name.split("@")[0]
+
+
         template_values = {
             'url': url,
             'user': user,
@@ -174,7 +178,11 @@ class OtherUsersProfile(webapp2.RequestHandler):
             'user_profile_deets': user_profile_deets,
             'user_id': user.user_id(),
             'followers_id': followers_id,
-            'following_id': following_id
+            'following_id': following_id,
+            'current_user_following_count': current_user_following_count,
+            'current_user_followers_count': current_user_followers_count,
+            'current_user_post_count': current_user_post_count,
+            'users_first_name': users_first_name
         }
 
         template = JINJA_ENVIRONMENT.get_template('users_profile.html')

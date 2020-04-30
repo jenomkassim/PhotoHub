@@ -3,6 +3,8 @@ import os
 import jinja2
 import webapp2
 from google.appengine.api import users
+from google.appengine.ext import ndb
+
 
 from timeline import Timeline
 from timeline import UploadHandler
@@ -34,6 +36,9 @@ class MainPage(webapp2.RequestHandler):
             url = users.create_logout_url(self.request.uri)
             login_status = 'Logout'
             self.redirect('/timeline')
+
+            myuser_key = ndb.Key('MyUser', user.user_id())
+            myuser = myuser_key.get()
 
         else:
             url = users.create_login_url(self.request.uri)

@@ -83,10 +83,6 @@ class Timeline(webapp2.RequestHandler):
                                 email=user.email())
                 myuser.timeline.append(user.user_id())
                 myuser.put()
-            # taskboard_user_ref = MyUser.get_by_id(myuser_key.id())
-            # taskboard_user_keys = taskboard_user_ref.td_key
-
-
         else:
             url = users.create_login_url(self.request.uri)
             login_status = 'Login'
@@ -104,6 +100,32 @@ class Timeline(webapp2.RequestHandler):
             for j in MyUser.get_by_id(i).users_posts_key:
                 timeline_posts.append(j)
 
+        followers_id = []
+        following_id = []
+
+        for f in myuser.followers:
+            followers_id.append(f)
+
+        for fl in myuser.following:
+            following_id.append(fl)
+
+        # FOLLOWERS COUNT
+        followers_count = 0
+
+        for i in myuser.followers:
+            followers_count = followers_count + 1
+
+        # FOLLOWING COUNT
+        following_count = 0
+
+        for i in myuser.following:
+            following_count = following_count + 1
+
+        # POST COUNT
+        post_count = 0
+        for i in myuser.users_posts_key:
+            post_count = post_count + 1
+
 
         template_values = {
             'url': url,
@@ -116,7 +138,10 @@ class Timeline(webapp2.RequestHandler):
             'all_posts': myuser.users_posts_key,
             'Post': Post,
             'MyUser': MyUser,
-            'timeline_posts': timeline_posts
+            'timeline_posts': timeline_posts,
+            'following_count': following_count,
+            'followers_count': followers_count,
+            'post_count': post_count
         }
 
         template = JINJA_ENVIRONMENT.get_template('timeline.html')
@@ -140,7 +165,7 @@ class Comment(webapp2.RequestHandler):
 
         # GET POST DETAILS
         post_details = Post.get_by_id(post_id)
-        self.response.write(post_details)
+        # self.response.write(post_details)
 
         new_comment = Comments(
             comment=self.request.get('comment'),
