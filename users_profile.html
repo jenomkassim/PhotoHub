@@ -85,21 +85,21 @@
                                 <div>
                                     <span class="lead font-weight-bold" style="font-size: 14px;">Email Address</span>
                                     <a href="/user_profile?id={{ user_profile_deets.key.urlsafe() }}">
-                                        <p class="lead" style="color: black;">{{ user_profile_deets.email }}</p>
+                                        <p class="lead" style="color: lightgray;">{{ user_profile_deets.email }}</p>
                                     </a>
                                 </div>
 
                                 <div>
                                     <span class="lead font-weight-bold" style="font-size: 14px;">Following</span>
                                     <a href="/user_following?id={{ user_profile_deets.key.urlsafe() }}">
-                                        <p class="lead" style="color: black;">{{ following_count }}</p>
+                                        <p class="lead" style="color: lightgray;">{{ following_count }}</p>
                                     </a>
                                 </div>
 
                                 <div>
                                     <span class="lead font-weight-bold" style="font-size: 14px;">Followers</span>
                                     <a href="/user_followers?id={{ user_profile_deets.key.urlsafe() }}">
-                                        <p class="lead" style="color: black;">{{ followers_count }}</p>
+                                        <p class="lead" style="color: lightgray;">{{ followers_count }}</p>
                                     </a>
                                 </div>
 
@@ -144,7 +144,7 @@
                                             <!-- we will then list the blobs that we do have in the datastore available to us -->
                                             {% for i in all_posts[::-1] %}
                                             {% set x = Post.get_by_id(i.id()).creator %}
-                                            <div class="row box-card-timeline shadow-lg mt-3">
+                                            <div class="row box-card-timeline mt-3">
                                                 <div class="col-12" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(255, 255, 255, 0)), url('/view_photo/{{ Post.get_by_id(i.id()).image_blob_key }}');
                                                 height: 400px; width: 650px; background-size: cover; background-repeat: no-repeat; border-radius: 30px 30px 0px 0px;" >
                                                     <p class="text-light p-3 lead">
@@ -154,9 +154,7 @@
 
 
                                                 <div class="col-12 pt-3">
-                                                    <img src="img/like.png" class="img-fluid" style="height: 15px; margin-top: -5px"> <span class="lead" style="font-size: 15px">Like</span>
                                                     <img src="img/comment.png" class="img-fluid pl-4" style="height: 15px; margin-top: -5px"> <span class="lead" style="font-size: 15px">Comment</span>
-                                                    <img src="img/share.png" class="img-fluid pl-4" style="height: 15px; margin-top: -5px"> <span class="lead" style="font-size: 15px">Share</span>
                                                 </div>
 
                                                 <div class="col-12 pt-3 pr-3 pl-3">
@@ -169,13 +167,13 @@
                                                 <div class="col-12">
                                                     {% for i in Post.get_by_id(i.id()).comments[::-1] %}
                                                     <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
-                                                    <span class="lead" style="font-size: 16px;">{{i.comment}}</span>
+                                                    <span class="lead" style="font-size: 16px;color: lightgray;">{{i.comment}}</span>
                                                     <br/>
                                                     {% endfor %}
                                                 </div>
 
-                                                <div class="col-12">
-                                                    <form action="/comment" method="post">
+                                                <div class="col-12 mt-4">
+                                                    <form action="/profile_comment?id={{ user_profile_deets.key.urlsafe() }}" method="post">
                                                           <div class="form-group">
                                                               <input name="post_id" value="{{ i.id()}}" type="text" class="d-none" />
                                                             <textarea class="form-control" placeholder="Add a Comment" rows="2" style="border-radius: 10px;" name="comment" maxlength="200" required></textarea>

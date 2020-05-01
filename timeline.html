@@ -20,21 +20,29 @@
             <img src="img/avatar.png" class="d-block mx-auto mt-4" height="100"/>
             <div class="row">
                 <div class="col text-center mt-3">
-                    <span class="lead" style="color: #dfe6e9">{{ user_email }}</span>
+                    <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
+                        <span class="lead" style="color: #dfe6e9">{{ user_email }}</span>
+                    </a>
                 </div>
             </div>
             <div class="row p-4 mt-2">
                 <div class="col text-center">
-                    <span class="font-weight-bold" style="color: white;">{{ post_count }}</span>
-                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Posts</p>
+                    <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
+                        <span class="font-weight-bold" style="color: white;">{{ post_count }}</span>
+                        <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Posts</p>
+                    </a>
                 </div>
                 <div class="col text-center">
-                    <span class="font-weight-bold" style="color: white;">{{ followers_count }}</span>
-                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Followers</p>
+                    <a href="/user_followers?id={{ myuser.key.urlsafe() }}">
+                        <span class="font-weight-bold" style="color: white;">{{ followers_count }}</span>
+                        <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Followers</p>
+                    </a>
                 </div>
                 <div class="col text-center">
-                    <span class="font-weight-bold" style="color: white;">{{ following_count }}</span>
-                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Following</p>
+                    <a href="/user_following?id={{ myuser.key.urlsafe() }}">
+                        <span class="font-weight-bold" style="color: white;">{{ following_count }}</span>
+                        <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Following</p>
+                    </a>
                 </div>
             </div>
         </div>
@@ -60,7 +68,7 @@
 
 
     <!-- Page Content  -->
-    <div id="content">
+    <div id="content" class="pl-4">
 
         <div>
 
@@ -69,10 +77,10 @@
 
                 <div class="row">
                     <div class="col">
-                        <h1 class="lead" style="font-size: 40px; font-weight: 500;">Timeline</h1>
+                        <h1 class="lead" style="font-size: 30px; font-weight: 500;">Timeline</h1>
                     </div>
                     <div class="col" style="margin-top: 10px;">
-                        <button type="button" style="padding: 7px 15px;" class="btn btn-danger float-right" data-toggle="modal" data-target="#newPost">
+                        <button type="button" style="padding: 7px 15px;" class="btn btn-danger float-right mr-4" data-toggle="modal" data-target="#newPost">
                             Add New Post
                         </button>
                     </div>
@@ -82,8 +90,10 @@
 
                     <div class="row">
 
-                        {% for i in timeline_posts[::-1] %}
+
+                        {% for i in timeline_posts[-50:][::-1] %}
                             {% set x = Post.get_by_id(i.id()).creator %}
+                            {% set z = Post.get_by_id(i.id()) %}
 
                         <div class="col-6">
 
@@ -111,10 +121,34 @@
                                 </div>
 
                                 <div class="col-12 mt-2">
-                                    {% for i in Post.get_by_id(i.id()).comments[::-1] %}
+
+                                    {% for i in Post.get_by_id(i.id()).comments[-5:][::-1] %}
                                     <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
                                     <span class="lead" style="font-size: 16px;">{{i.comment}}</span>
                                     <br/>
+                                    {% endfor %}
+
+                                    {% for i in Post.get_by_id(i.id()).comments[::-1] %}
+                                    {% if loop.index > 5 %}
+                                        <p class="mt-3 mb-2">
+                                          <a class="" data-toggle="collapse" href="#collapseExample{{z.key.id()}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                            View More Comments
+                                          </a>
+                                        </p>
+                                    {% break %}
+                                    {% endif %}
+                                    {% endfor %}
+
+                                    {% for i in Post.get_by_id(i.id()).comments[::-1] %}
+                                    {% if loop.index > 5 %}
+                                    <div class="collapse" id="collapseExample{{z.key.id()}}">
+                                          <div>
+                                                <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
+                                                <span class="lead" style="font-size: 16px;">{{i.comment}}</span>
+                                                <br/>
+                                          </div>
+                                    </div>
+                                    {% endif %}
                                     {% endfor %}
                                 </div>
 

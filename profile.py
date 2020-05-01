@@ -8,7 +8,7 @@ from google.appengine.ext import ndb
 from google.appengine.ext.webapp import blobstore_handlers
 
 from myuser import MyUser
-from post_images import PostImages
+from comments import Comments
 from posts import Post
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -161,7 +161,6 @@ class OtherUsersProfile(webapp2.RequestHandler):
         users_first_name = user_profile_deets.email
         users_first_name = users_first_name.split("@")[0]
 
-
         template_values = {
             'url': url,
             'user': user,
@@ -286,6 +285,40 @@ class UsersFollowers(webapp2.RequestHandler):
         for i in user_profile_deets.following:
             following_count = following_count + 1
 
+# -------------------------------------------------------------------------------------------------
+
+        current_user_followers_id = []
+        current_user_following_id = []
+
+        for f in myuser.followers:
+            current_user_followers_id.append(f)
+
+        for fl in myuser.following:
+            current_user_following_id.append(fl)
+
+        # FOLLOWERS COUNT
+        current_user_followers_count = 0
+
+        for i in myuser.followers:
+            current_user_followers_count = current_user_followers_count + 1
+
+        # FOLLOWING COUNT
+        current_user_following_count = 0
+
+        for i in myuser.following:
+            current_user_following_count = current_user_following_count + 1
+
+        # POST COUNT
+        current_user_post_count = 0
+        for i in myuser.users_posts_key:
+            current_user_post_count = current_user_post_count + 1
+
+# ------------------------------------------------------------------------------------------------
+
+        # GET USERs NAME
+        users_first_name = user_profile_deets.email
+        users_first_name = users_first_name.split("@")[0]
+
         template_values = {
             'url': url,
             'user': user,
@@ -302,7 +335,11 @@ class UsersFollowers(webapp2.RequestHandler):
             'user_profile_deets': user_profile_deets,
             'user_id': user.user_id(),
             'followers_id': followers_id,
-            'following_id': following_id
+            'following_id': following_id,
+            'current_user_following_count': current_user_following_count,
+            'current_user_followers_count': current_user_followers_count,
+            'current_user_post_count': current_user_post_count,
+            'users_first_name': users_first_name
         }
 
         template = JINJA_ENVIRONMENT.get_template('users_followers.html')
@@ -356,6 +393,40 @@ class UsersFollowing(webapp2.RequestHandler):
         for i in user_profile_deets.following:
             following_count = following_count + 1
 
+# -------------------------------------------------------------------------------------------------
+
+        current_user_followers_id = []
+        current_user_following_id = []
+
+        for f in myuser.followers:
+            current_user_followers_id.append(f)
+
+        for fl in myuser.following:
+            current_user_following_id.append(fl)
+
+        # FOLLOWERS COUNT
+        current_user_followers_count = 0
+
+        for i in myuser.followers:
+            current_user_followers_count = current_user_followers_count + 1
+
+        # FOLLOWING COUNT
+        current_user_following_count = 0
+
+        for i in myuser.following:
+            current_user_following_count = current_user_following_count + 1
+
+        # POST COUNT
+        current_user_post_count = 0
+        for i in myuser.users_posts_key:
+            current_user_post_count = current_user_post_count + 1
+
+# ------------------------------------------------------------------------------------------------
+
+        # GET USERs NAME
+        users_first_name = user_profile_deets.email
+        users_first_name = users_first_name.split("@")[0]
+
         template_values = {
             'url': url,
             'user': user,
@@ -372,12 +443,40 @@ class UsersFollowing(webapp2.RequestHandler):
             'user_profile_deets': user_profile_deets,
             'user_id': user.user_id(),
             'followers_id': followers_id,
-            'following_id': following_id
+            'following_id': following_id,
+            'current_user_following_count': current_user_following_count,
+            'current_user_followers_count': current_user_followers_count,
+            'current_user_post_count': current_user_post_count,
+            'users_first_name': users_first_name
         }
 
         template = JINJA_ENVIRONMENT.get_template('users_following.html')
         self.response.write(template.render(template_values))
 
 
+class UserProfileComment(webapp2.RequestHandler):
+    def post(self):
 
+        idd = self.request.get('id')
+        user_profile_key = ndb.Key(urlsafe=idd)
+        user_profile_id = user_profile_key.id()
 
+        user_profile_deets = ndb.Key('MyUser', user_profile_id).get()
+        user = users.get_current_user()
+        myuser_key = ndb.Key('MyUser', user.user_id())
+        myuser = myuser_key.get()
+
+        post_id = int(self.request.get('post_id'))
+
+        # GET POST DETAILS
+        post_details = Post.get_by_id(post_id)
+        # self.response.write(post_details)
+
+        new_comment = Comments(
+            comment=self.request.get('comment'),
+            commenter=myuser_key.id()
+        )
+
+        post_details.comments.append(new_comment)
+        post_details.put()
+        self.redirect('user_profile?id=' + str(idd))

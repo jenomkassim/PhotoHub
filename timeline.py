@@ -14,7 +14,7 @@ from comments import Comments
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
-    extensions=['jinja2.ext.autoescape'],
+    extensions=['jinja2.ext.autoescape', 'jinja2.ext.loopcontrols'],
     autoescape=True
 )
 
@@ -141,7 +141,8 @@ class Timeline(webapp2.RequestHandler):
             'timeline_posts': timeline_posts,
             'following_count': following_count,
             'followers_count': followers_count,
-            'post_count': post_count
+            'post_count': post_count,
+            'myuser': myuser
         }
 
         template = JINJA_ENVIRONMENT.get_template('timeline.html')

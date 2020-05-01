@@ -13,6 +13,7 @@ from profile import Profile
 from profile import OtherUsersProfile
 from profile import UsersFollowers
 from profile import UsersFollowing
+from profile import UserProfileComment
 from search import Search
 from timeline import Comment
 
@@ -66,4 +67,5 @@ app = webapp2.WSGIApplication([
     ('/user_followers', UsersFollowers),
     ('/user_following', UsersFollowing),
     ('/comment', Comment),
+    ('/profile_comment', UserProfileComment),
 ], debug=True)
