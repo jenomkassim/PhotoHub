@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Profile - InstaHub</title>
+    <title>Profile - Photogram</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/sidebar.css" />
 
@@ -14,25 +14,40 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="logo-style">
-<!--            <img src="img/logo.png" class="d-block mx-auto" height="100"/>-->
-            <img src="img/avatar.png" class="d-block mx-auto mt-4" height="100"/>
-            <div class="row">
-                <div class="col text-center mt-3">
-                    <span class="lead" style="color: #dfe6e9">{{ user_email }}</span>
+            <div class="row mb-5 mt-4">
+                <div class="col text-center">
+                    <a href="/" class="site-logo">
+                        <img src="img/logo.png" alt="" style="height: 50px;" class="img-fluid">
+                    </a>
                 </div>
             </div>
+
+            <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
+                <img src="img/avatar.png" class="d-block mx-auto mt-4" height="80"/>
+                <div class="row">
+                    <div class="col text-center mt-3">
+                            <span class="lead" style="color: #dfe6e9">{{ user_email }}</span>
+                    </div>
+                </div>
+            </a>
             <div class="row p-4 mt-2">
                 <div class="col text-center">
-                    <span class="font-weight-bold" style="color: white;">{{ current_user_post_count }}</span>
-                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Posts</p>
+                    <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
+                        <span class="font-weight-bold" style="color: white;">{{ current_user_post_count }}</span>
+                        <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Posts</p>
+                    </a>
                 </div>
                 <div class="col text-center">
-                    <span class="font-weight-bold" style="color: white;">{{ current_user_followers_count }}</span>
-                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Followers</p>
+                    <a href="/user_followers?id={{ myuser.key.urlsafe() }}">
+                        <span class="font-weight-bold" style="color: white;">{{ current_user_followers_count }}</span>
+                        <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Followers</p>
+                    </a>
                 </div>
                 <div class="col text-center">
-                    <span class="font-weight-bold" style="color: white;">{{ current_user_following_count }}</span>
-                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Following</p>
+                    <a href="/user_following?id={{ myuser.key.urlsafe() }}">
+                        <span class="font-weight-bold" style="color: white;">{{ current_user_following_count }}</span>
+                        <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Following</p>
+                    </a>
                 </div>
             </div>
         </div>
@@ -75,12 +90,6 @@
                             <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12 profile-box " style="padding: 25px; height: 100%;">
                                 <img src="img/avatar.png" class="d-block mx-auto" style="width: 130px; height: 130px;">
                                 <hr>
-                                <!--<p>Contact Information</p>-->
-
-<!--                                <div>-->
-<!--                                    <span class="lead font-weight-bold" style="font-size: 14px;">Username</span>-->
-<!--                                    <p class="lead" style="color: black;">yerohafsat@gmail.com</p>-->
-<!--                                </div>-->
 
                                 <div>
                                     <span class="lead font-weight-bold" style="font-size: 14px;">Email Address</span>
@@ -141,9 +150,9 @@
                                         <!-- OVERVIEW TAB -->
                                         <div class="tab-pane fade show active" id="pills-overview-tab" role="tabpanel" aria-labelledby="pills-overview">
 
-                                            <!-- we will then list the blobs that we do have in the datastore available to us -->
                                             {% for i in all_posts[::-1] %}
                                             {% set x = Post.get_by_id(i.id()).creator %}
+                                            {% set z = Post.get_by_id(i.id()) %}
                                             <div class="row box-card-timeline mt-3">
                                                 <div class="col-12" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(255, 255, 255, 0)), url('/view_photo/{{ Post.get_by_id(i.id()).image_blob_key }}');
                                                 height: 400px; width: 650px; background-size: cover; background-repeat: no-repeat; border-radius: 30px 30px 0px 0px;" >
@@ -159,19 +168,52 @@
 
                                                 <div class="col-12 pt-3 pr-3 pl-3">
                                                     <p>
-                                                        <span class="font-weight-bold">{{ MyUser.get_by_id(x.id()).email }} </span>
+                                                        <a href="/user_profile?id={{ MyUser.get_by_id(x.id()).key.urlsafe() }}" style="text-decoration: none;">
+                                                            <span class="font-weight-bold">{{ MyUser.get_by_id(x.id()).email }} </span>
+                                                        </a>
                                                         <span class="lead" style="font-size: 17px">{{ Post.get_by_id(i.id()).caption }}</span>
+
                                                     </p>
                                                 </div>
 
-                                                <div class="col-12">
-                                                    {% for i in Post.get_by_id(i.id()).comments[::-1] %}
-                                                    <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
-                                                    <span class="lead" style="font-size: 16px;color: lightgray;">{{i.comment}}</span>
+                                                <div class="col-12 mt-2">
+
+                                                    {% for i in Post.get_by_id(i.id()).comments[-5:][::-1] %}
+                                                    <a href="/user_profile?id={{ MyUser.get_by_id(i.commenter).key.urlsafe() }}" style="text-decoration: none;">
+                                                        <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
+                                                    </a>
+                                                    <span class="lead" style="font-size: 16px;">{{i.comment}}</span>
                                                     <br/>
+                                                    {% endfor %}
+
+                                                    {% for i in Post.get_by_id(i.id()).comments[::-1] %}
+                                                    {% if loop.index > 5 %}
+                                                        <p class="mt-3 mb-2">
+                                                          <a class="" data-toggle="collapse" href="#collapseExample{{z.key.id()}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                            View More Comments
+                                                          </a>
+                                                        </p>
+                                                    {% break %}
+                                                    {% endif %}
+                                                    {% endfor %}
+
+                                                    {% for i in Post.get_by_id(i.id()).comments[::-1] %}
+                                                    {% if loop.index > 5 %}
+                                                    <div class="collapse" id="collapseExample{{z.key.id()}}">
+                                                          <div>
+                                                              <a href="/user_profile?id={{ MyUser.get_by_id(i.commenter).key.urlsafe() }}" style="text-decoration: none;">
+                                                                <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
+                                                              </a>
+                                                                <span class="lead" style="font-size: 16px;">{{i.comment}}</span>
+                                                                <br/>
+                                                          </div>
+                                                    </div>
+                                                    {% endif %}
                                                     {% endfor %}
                                                 </div>
 
+
+<!--                                                COMMENT-->
                                                 <div class="col-12 mt-4">
                                                     <form action="/profile_comment?id={{ user_profile_deets.key.urlsafe() }}" method="post">
                                                           <div class="form-group">

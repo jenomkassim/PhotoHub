@@ -1,5 +1,5 @@
 import os
-
+import re
 import jinja2
 import webapp2
 from google.appengine.api import users
@@ -11,7 +11,7 @@ from myuser import MyUser
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
-    extensions=['jinja2.ext.autoescape'],
+    extensions=['jinja2.ext.autoescape', 'jinja2.ext.loopcontrols'],
     autoescape=True
 )
 
@@ -23,6 +23,7 @@ class Search(webapp2.RequestHandler):
         url = ''
         login_status = ''
         user = users.get_current_user()
+        search = False
 
         if user:
             url = users.create_logout_url('/')
@@ -72,7 +73,9 @@ class Search(webapp2.RequestHandler):
             'user_email_for_search': user.email(),
             'following_count': following_count,
             'followers_count': followers_count,
-            'post_count': post_count
+            'post_count': post_count,
+            'search': search,
+            'myuser': myuser
         }
 
         template = JINJA_ENVIRONMENT.get_template('search.html')
@@ -85,6 +88,7 @@ class Search(webapp2.RequestHandler):
         login_status = ''
         username_search = ''
         user = users.get_current_user()
+        search = True
 
         if user:
             url = users.create_logout_url(self.request.uri)
@@ -104,8 +108,21 @@ class Search(webapp2.RequestHandler):
             username_search = self.request.get('search')
 
         # SEARCH FOR USERS
+        total_users = []
+        total_query = []
 
-        total_query = MyUser.query(MyUser.email == username_search).fetch()
+        query = MyUser.query()
+
+        for i in query:
+            total_users.append(i.email)
+
+        regext_search = re.compile('^{username_search}'.format(username_search=username_search))
+        regext_result = list(filter(regext_search.match, total_users))
+
+        for results in regext_result:
+            search_query = MyUser.query(MyUser.email == results).fetch()
+            total_query.append(search_query)
+
 
         followers_id = []
         following_id = []
@@ -133,7 +150,6 @@ class Search(webapp2.RequestHandler):
         for i in myuser.users_posts_key:
             post_count = post_count + 1
 
-
         template_values = {
             'user': user,
             'url': url,
@@ -142,7 +158,9 @@ class Search(webapp2.RequestHandler):
             'user_email_for_search': user.email(),
             'following_count': following_count,
             'followers_count': followers_count,
-            'post_count': post_count
+            'post_count': post_count,
+            'search': search,
+            'myuser': myuser
         }
 
         template = JINJA_ENVIRONMENT.get_template('search.html')

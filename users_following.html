@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Profile - InstaHub</title>
+    <title>Following - Photogram</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/sidebar.css" />
 
@@ -14,25 +14,40 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="logo-style">
-<!--            <img src="img/logo.png" class="d-block mx-auto" height="100"/>-->
-            <img src="img/avatar.png" class="d-block mx-auto mt-4" height="100"/>
-            <div class="row">
-                <div class="col text-center mt-3">
-                    <span class="lead" style="color: #dfe6e9">{{ user_email }}</span>
+            <div class="row mb-5 mt-4">
+                <div class="col text-center">
+                    <a href="/" class="site-logo">
+                        <img src="img/logo.png" alt="" style="height: 50px;" class="img-fluid">
+                    </a>
                 </div>
             </div>
+
+            <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
+                <img src="img/avatar.png" class="d-block mx-auto mt-4" height="80"/>
+                <div class="row">
+                    <div class="col text-center mt-3">
+                            <span class="lead" style="color: #dfe6e9">{{ user_email }}</span>
+                    </div>
+                </div>
+            </a>
             <div class="row p-4 mt-2">
                 <div class="col text-center">
-                    <span class="font-weight-bold" style="color: white;">{{ current_user_post_count }}</span>
-                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Posts</p>
+                    <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
+                        <span class="font-weight-bold" style="color: white;">{{ current_user_post_count }}</span>
+                        <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Posts</p>
+                    </a>
                 </div>
                 <div class="col text-center">
-                    <span class="font-weight-bold" style="color: white;">{{ current_user_followers_count }}</span>
-                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Followers</p>
+                    <a href="/user_followers?id={{ myuser.key.urlsafe() }}">
+                        <span class="font-weight-bold" style="color: white;">{{ current_user_followers_count }}</span>
+                        <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Followers</p>
+                    </a>
                 </div>
                 <div class="col text-center">
-                    <span class="font-weight-bold" style="color: white;">{{ current_user_following_count }}</span>
-                    <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Following</p>
+                    <a href="/user_following?id={{ myuser.key.urlsafe() }}">
+                        <span class="font-weight-bold" style="color: white;">{{ current_user_following_count }}</span>
+                        <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Following</p>
+                    </a>
                 </div>
             </div>
         </div>
@@ -137,9 +152,19 @@
                                         <!-- TRANSACTION TAB -->
                                         <div class="tab-pane fade show active" id="pills-transactions-tab" role="tabpanel" aria-labelledby="pills-transactions">
 
-                                            {% for i in following_id %}
-                                                <p>{{ MyUser.get_by_id(i).email }}</p>
-                                            {% endfor %}
+                                            <div class="row">
+
+                                                {% for i in following_id %}
+                                                <div class="col-4 mt-4">
+                                                    <a href="/user_profile?id={{ MyUser.get_by_id(i).key.urlsafe() }}" style="text-decoration: none;">
+                                                        <img src="img/avatar.png" class="d-block mx-auto" style="width: 90px; height: 90px;">
+                                                        <p class="text-center mt-3 taskboard-text-alt">{{ MyUser.get_by_id(i).email }}</p>
+                                                    </a>
+                                                </div>
+                                                {% endfor %}
+
+                                            </div>
+
 
                                         </div>
 

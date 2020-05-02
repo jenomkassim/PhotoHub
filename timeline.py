@@ -80,7 +80,9 @@ class Timeline(webapp2.RequestHandler):
                 welcome = 'Hurray! Your First Login into the workspace, we hope you enjoy our application!'
                 myuser = MyUser(id=user.user_id(),
                                 identity=user.user_id(),
-                                email=user.email())
+                                email=user.email(),
+                                username=user.email()
+                                )
                 myuser.timeline.append(user.user_id())
                 myuser.put()
         else:

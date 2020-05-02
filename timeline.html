@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Timeline - InstaHub</title>
+    <title>Timeline - Photogram</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/sidebar.css" />
 
@@ -16,15 +16,22 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="logo-style">
-<!--            <img src="img/logo.png" class="d-block mx-auto" height="100"/>-->
-            <img src="img/avatar.png" class="d-block mx-auto mt-4" height="100"/>
-            <div class="row">
-                <div class="col text-center mt-3">
-                    <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
-                        <span class="lead" style="color: #dfe6e9">{{ user_email }}</span>
+            <div class="row mb-5 mt-4">
+                <div class="col text-center">
+                    <a href="/" class="site-logo">
+                        <img src="img/logo.png" alt="" style="height: 50px;" class="img-fluid">
                     </a>
                 </div>
             </div>
+
+            <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
+                <img src="img/avatar.png" class="d-block mx-auto mt-4" height="80"/>
+                <div class="row">
+                    <div class="col text-center mt-3">
+                            <span class="lead" style="color: #dfe6e9">{{ user_email }}</span>
+                    </div>
+                </div>
+            </a>
             <div class="row p-4 mt-2">
                 <div class="col text-center">
                     <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
@@ -53,7 +60,6 @@
             <ul class="list-unstyled components">
 
                 <li class="active"> <a href="/">Timeline</a> </li>
-<!--                <li> <a href="/profile">Profile</a> </li>-->
                 <li> <a href="/search">Search</a> </li>
                 <li> <a href="{{ url }}">{{ login_status }}</a> </li>
 
@@ -108,6 +114,7 @@
                                 </div>
 
 
+
                                 <div class="col-12 pt-3">
                                     <img src="img/comment.png" class="img-fluid pl-4" style="height: 15px; margin-top: -5px">
                                     <span class="lead" style="font-size: 15px">Comment</span>
@@ -115,7 +122,9 @@
 
                                 <div class="col-12 pt-3 pr-3 pl-3">
                                     <p>
-                                        <span class="font-weight-bold">{{ MyUser.get_by_id(x.id()).email }} </span>
+                                        <a href="/user_profile?id={{ MyUser.get_by_id(x.id()).key.urlsafe() }}" style="text-decoration: none;">
+                                            <span class="font-weight-bold">{{ MyUser.get_by_id(x.id()).email }} </span>
+                                        </a>
                                         <span class="lead" style="font-size: 17px; color: lightgray">{{ Post.get_by_id(i.id()).caption }}</span>
                                     </p>
                                 </div>
@@ -123,7 +132,9 @@
                                 <div class="col-12 mt-2">
 
                                     {% for i in Post.get_by_id(i.id()).comments[-5:][::-1] %}
-                                    <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
+                                    <a href="/user_profile?id={{ MyUser.get_by_id(i.commenter).key.urlsafe() }}" style="text-decoration: none;">
+                                        <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
+                                    </a>
                                     <span class="lead" style="font-size: 16px;">{{i.comment}}</span>
                                     <br/>
                                     {% endfor %}
@@ -143,7 +154,9 @@
                                     {% if loop.index > 5 %}
                                     <div class="collapse" id="collapseExample{{z.key.id()}}">
                                           <div>
+                                              <a href="/user_profile?id={{ MyUser.get_by_id(i.commenter).key.urlsafe() }}" style="text-decoration: none;">
                                                 <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
+                                              </a>
                                                 <span class="lead" style="font-size: 16px;">{{i.comment}}</span>
                                                 <br/>
                                           </div>
@@ -227,19 +240,6 @@
                     <input type="submit"/>
                 </form>
 
-<!--                <form action="{{ upload_url }}" method="post" enctype="multipart/form-data">-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="uploadImage">Upload Image</label>-->
-<!--                        <input type="file" class="form-control" id="uploadImage" name="uploadImage">-->
-<!--                    </div>-->
-<!--&lt;!&ndash;                    <div class="row">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="col form-group">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <label for="postCaption">Write Caption</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <textarea class="form-control" maxlength="1000" id="postCaption" name="postCaption" required rows="7"></textarea>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                    <button type="submit" class="btn btn-primary">Post</button>-->
-<!--                </form>-->
             </div>
         </div>
     </div>
