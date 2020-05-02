@@ -96,17 +96,15 @@
 
                     <div class="row">
 
-
-                        {% for i in timeline_posts[-50:][::-1] %}
-                            {% set x = Post.get_by_id(i.id()).creator %}
-                            {% set z = Post.get_by_id(i.id()) %}
-
+                        {% for i in sorted_timeline[-50:] | sort(reverse=true, attribute="date") %}
+                        {% set x = i.creator %}
+                        {% set z = i %}
                         <div class="col-6">
 
 
 
                             <div class="row box-card-timeline shadow-lg mt-3"  style="background-color: #000000; width: 100%">
-                                <div class="col-12" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(255, 255, 255, 0)), url('/view_photo/{{ Post.get_by_id(i.id()).image_blob_key }}');
+                                <div class="col-12" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(255, 255, 255, 0)), url('/view_photo/{{ i.image_blob_key }}');
                                 height: 400px; background-size: cover; background-repeat: no-repeat; border-radius: 30px 30px 0px 0px;" >
                                     <p class="text-light p-3 lead">
 
@@ -116,7 +114,7 @@
 
 
                                 <div class="col-12 pt-3">
-                                    <img src="img/comment.png" class="img-fluid pl-4" style="height: 15px; margin-top: -5px">
+                                    <img src="img/comment.png" class="img-fluid" style="height: 15px; margin-top: -5px">
                                     <span class="lead" style="font-size: 15px">Comment</span>
                                 </div>
 
@@ -125,13 +123,13 @@
                                         <a href="/user_profile?id={{ MyUser.get_by_id(x.id()).key.urlsafe() }}" style="text-decoration: none;">
                                             <span class="font-weight-bold">{{ MyUser.get_by_id(x.id()).email }} </span>
                                         </a>
-                                        <span class="lead" style="font-size: 17px; color: lightgray">{{ Post.get_by_id(i.id()).caption }}</span>
+                                        <span class="lead" style="font-size: 17px; color: lightgray">{{ i.caption }}</span>
                                     </p>
                                 </div>
 
                                 <div class="col-12 mt-2">
 
-                                    {% for i in Post.get_by_id(i.id()).comments[-5:][::-1] %}
+                                    {% for i in i.comments[-5:][::-1] %}
                                     <a href="/user_profile?id={{ MyUser.get_by_id(i.commenter).key.urlsafe() }}" style="text-decoration: none;">
                                         <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
                                     </a>
@@ -139,7 +137,7 @@
                                     <br/>
                                     {% endfor %}
 
-                                    {% for i in Post.get_by_id(i.id()).comments[::-1] %}
+                                    {% for i in i.comments[::-1] %}
                                     {% if loop.index > 5 %}
                                         <p class="mt-3 mb-2">
                                           <a class="" data-toggle="collapse" href="#collapseExample{{z.key.id()}}" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -150,7 +148,7 @@
                                     {% endif %}
                                     {% endfor %}
 
-                                    {% for i in Post.get_by_id(i.id()).comments[::-1] %}
+                                    {% for i in i.comments[::-1] %}
                                     {% if loop.index > 5 %}
                                     <div class="collapse" id="collapseExample{{z.key.id()}}">
                                           <div>
@@ -170,7 +168,7 @@
                                         <div class="row">
                                             <div class="col-10">
                                                 <div class="form-group form-inline">
-                                                      <input name="post_id" value="{{ i.id()}}" type="text" class="d-none" />
+                                                      <input name="post_id" value="{{ i.key.id() }}" type="text" class="d-none" />
                                                     <textarea class="form-control" placeholder="Add a Comment" rows="2" style="border-radius: 10px; width: 100%" name="comment" maxlength="200" required></textarea>
                                                   </div>
                                             </div>
@@ -183,12 +181,15 @@
 
                                     </form>
                                 </div>
+
                                 </div>
 
 
                         </div>
 
                         {% endfor %}
+
+
 
                     </div>
 

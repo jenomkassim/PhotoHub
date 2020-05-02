@@ -7,6 +7,5 @@ class Post(ndb.Model):
     image_key = ndb.KeyProperty()
     image_blob_key = ndb.BlobKeyProperty()
     caption = ndb.StringProperty()
-    likes = ndb.StringProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
     comments = ndb.StructuredProperty(Comments, repeated=True)

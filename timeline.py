@@ -91,16 +91,22 @@ class Timeline(webapp2.RequestHandler):
 
         timeline = []
 
+
         # GET ALL TIMELINE MEMBERS
         for i, followers in enumerate(myuser.timeline):
             timeline.append(followers)
 
-        timeline_posts = []
-
         # GET ALL TIMELINE POSTS
+        timeline_posts = []
         for i in timeline:
             for j in MyUser.get_by_id(i).users_posts_key:
                 timeline_posts.append(j)
+
+        # GET SORTED TIMELINE POST
+        sorted_timeline = []
+
+        for j in timeline_posts:
+            sorted_timeline.append(Post.get_by_id(j.id()))
 
         followers_id = []
         following_id = []
@@ -135,6 +141,7 @@ class Timeline(webapp2.RequestHandler):
             'welcome': welcome,
             'login_status': login_status,
             'user_email': user.email(),
+            'user_id': myuser,
             'myuser_key': myuser_key,
             'upload_url': blobstore.create_upload_url('/upload'),
             'all_posts': myuser.users_posts_key,
@@ -144,7 +151,8 @@ class Timeline(webapp2.RequestHandler):
             'following_count': following_count,
             'followers_count': followers_count,
             'post_count': post_count,
-            'myuser': myuser
+            'myuser': myuser,
+            'sorted_timeline': sorted_timeline
         }
 
         template = JINJA_ENVIRONMENT.get_template('timeline.html')

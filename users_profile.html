@@ -148,7 +148,7 @@
                                     <div class="tab-content" id="pills-tabContent">
 
                                         <!-- OVERVIEW TAB -->
-                                        <div class="tab-pane fade show active" id="pills-overview-tab" role="tabpanel" aria-labelledby="pills-overview">
+                                        <div class="tab-pane fade show active pt-3" id="pills-overview-tab" role="tabpanel" aria-labelledby="pills-overview">
 
                                             {% for i in all_posts[::-1] %}
                                             {% set x = Post.get_by_id(i.id()).creator %}
@@ -163,7 +163,7 @@
 
 
                                                 <div class="col-12 pt-3">
-                                                    <img src="img/comment.png" class="img-fluid pl-4" style="height: 15px; margin-top: -5px"> <span class="lead" style="font-size: 15px">Comment</span>
+                                                    <img src="img/comment.png" class="img-fluid" style="height: 15px; margin-top: -5px"> <span class="lead" style="font-size: 15px">Comment</span>
                                                 </div>
 
                                                 <div class="col-12 pt-3 pr-3 pl-3">
