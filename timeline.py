@@ -108,6 +108,10 @@ class Timeline(webapp2.RequestHandler):
         for j in timeline_posts:
             sorted_timeline.append(Post.get_by_id(j.id()))
 
+        timeline_count = 0
+        for counting in sorted_timeline:
+            timeline_count = timeline_count + 1
+
         followers_id = []
         following_id = []
 
@@ -152,7 +156,8 @@ class Timeline(webapp2.RequestHandler):
             'followers_count': followers_count,
             'post_count': post_count,
             'myuser': myuser,
-            'sorted_timeline': sorted_timeline
+            'sorted_timeline': sorted_timeline,
+            'timeline_count': timeline_count
         }
 
         template = JINJA_ENVIRONMENT.get_template('timeline.html')
