@@ -153,7 +153,7 @@
                                             {% for i in all_posts[::-1] %}
                                             {% set x = Post.get_by_id(i.id()).creator %}
                                             {% set z = Post.get_by_id(i.id()) %}
-                                            <div class="row box-card-timeline mt-3">
+                                            <div class="row box-card-timeline mt-3 d-flex justify-content-center">
                                                 <div class="col-12" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(255, 255, 255, 0)), url('/view_photo/{{ Post.get_by_id(i.id()).image_blob_key }}');
                                                 height: 400px; width: 650px; background-size: cover; background-repeat: no-repeat; border-radius: 30px 30px 0px 0px;" >
                                                     <p class="text-light p-3 lead">
@@ -216,11 +216,20 @@
 <!--                                                COMMENT-->
                                                 <div class="col-12 mt-4">
                                                     <form action="/profile_comment?id={{ user_profile_deets.key.urlsafe() }}" method="post">
-                                                          <div class="form-group">
-                                                              <input name="post_id" value="{{ i.id()}}" type="text" class="d-none" />
-                                                            <textarea class="form-control" placeholder="Add a Comment" rows="2" style="border-radius: 10px;" name="comment" maxlength="200" required></textarea>
+                                                          <div class="row">
+                                                              <div class="col-10">
+                                                                  <div class="form-group">
+                                                                      <input name="post_id" value="{{ i.id()}}" type="text" class="d-none" />
+                                                                    <textarea class="form-control" placeholder="Add a Comment" rows="2" style="border-radius: 10px;" name="comment" maxlength="200" required></textarea>
+                                                                  </div>
+                                                              </div>
+
+                                                              <div class="col-1">
+                                                                  <input type="submit" class="btn btn-primary" value="Comment">
+                                                              </div>
                                                           </div>
-                                                        <input type="submit" value="Comment">
+
+
                                                     </form>
                                                 </div>
 
