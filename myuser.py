@@ -4,7 +4,6 @@ from posts import Post
 
 
 class MyUser(ndb.Model):
-    identity = ndb.StringProperty()
     email = ndb.StringProperty()
     username = ndb.StringProperty()
     timeline = ndb.StringProperty(repeated=True)

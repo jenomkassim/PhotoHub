@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
+            <a href="/profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
                 <img src="img/avatar.png" class="d-block mx-auto mt-4" height="80"/>
                 <div class="row">
                     <div class="col text-center mt-3">
@@ -34,7 +34,7 @@
             </a>
             <div class="row p-4 mt-2">
                 <div class="col text-center">
-                    <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
+                    <a href="/profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
                         <span class="font-weight-bold" style="color: white;">{{ post_count }}</span>
                         <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Posts</p>
                     </a>
@@ -85,7 +85,7 @@
                     <form class="form-inline mx-auto" action="/search" method="post">
                       <div class="form-group mx-sm-3 mb-2">
                         <label for="search" class="sr-only">Search</label>
-                        <input type="text" class="form-control" id="search" name="search" placeholder="Search for user" style="width: 300px;">
+                        <input type="text" class="form-control" id="search" name="search" placeholder="Search for user" style="width: 300px;" required>
                       </div>
                       <input type="submit" class="btn btn-primary mb-2" name="button" value="Search" />
                     </form>
@@ -103,7 +103,7 @@
 
                         {% else %}
                         <div class="col-3 mt-4">
-                            <a href="/user_profile?id={{ j.key.urlsafe() }}" style="text-decoration: none;">
+                            <a href="/profile?id={{ j.key.urlsafe() }}" style="text-decoration: none;">
                                 <img src="img/avatar.png" class="d-block mx-auto" style="width: 90px; height: 90px;">
                                 <p class="text-center mt-3 taskboard-text-alt">{{ j.email }}</p>
                             </a>
@@ -125,7 +125,7 @@
 
                         {% else %}
                         <div class="col-3 mt-4">
-                            <a href="/user_profile?id={{ i.key.urlsafe() }}" style="text-decoration: none;">
+                            <a href="/profile?id={{ i.key.urlsafe() }}" style="text-decoration: none;">
                                 <img src="img/avatar.png" class="d-block mx-auto" style="width: 90px; height: 90px;">
                                 <p class="text-center mt-3 taskboard-text-alt">{{ i.email }}</p>
                             </a>

@@ -9,8 +9,7 @@ from google.appengine.ext import ndb
 from timeline import Timeline
 from timeline import UploadHandler
 from timeline import ViewPhotoHandler
-# from profile import Profile
-from profile import OtherUsersProfile
+from profile import Profile
 from profile import UsersFollowers
 from profile import UsersFollowing
 from profile import UserProfileComment
@@ -61,9 +60,8 @@ app = webapp2.WSGIApplication([
     ('/timeline', Timeline),
     ('/upload', UploadHandler),
     ('/view_photo/([^/]+)?', ViewPhotoHandler),
-    # ('/profile', Profile),
     ('/search', Search),
-    ('/user_profile', OtherUsersProfile),
+    ('/profile', Profile),
     ('/user_followers', UsersFollowers),
     ('/user_following', UsersFollowing),
     ('/comment', Comment),

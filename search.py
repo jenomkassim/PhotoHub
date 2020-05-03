@@ -86,7 +86,6 @@ class Search(webapp2.RequestHandler):
 
         url = ''
         login_status = ''
-        username_search = ''
         user = users.get_current_user()
         search = True
 
@@ -102,7 +101,6 @@ class Search(webapp2.RequestHandler):
             login_status = 'Login'
 
         action = self.request.get('button')
-        count = 0
 
         if action == 'Search':
             username_search = self.request.get('search')
@@ -122,7 +120,6 @@ class Search(webapp2.RequestHandler):
         for results in regext_result:
             search_query = MyUser.query(MyUser.email == results).fetch()
             total_query.append(search_query)
-
 
         followers_id = []
         following_id = []

@@ -30,8 +30,6 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
         blobinfo = blobstore.BlobInfo(upload.key())
         filename = blobinfo.filename
 
-        # collection_key = ndb.Key('PostImages', 1)
-        # collection = collection_key.get()
         new_image_upload = PostImages()
         new_image_upload.filenames = filename
         new_image_upload.blobs = upload.key()
@@ -48,14 +46,11 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
         new_post_user_ref.users_posts_key.append(image_upload_details.key)
         new_post_user_ref.put()
         self.redirect('/')
-        # self.redirect('/view_photo/%s' % upload.key())
 
 
-# [START download_handler]
 class ViewPhotoHandler(blobstore_handlers.BlobstoreDownloadHandler):
     def get(self, photo_key):
         self.send_blob(photo_key)
-# [END download_handler]
 
 
 class Timeline(webapp2.RequestHandler):
@@ -63,13 +58,11 @@ class Timeline(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/html'
 
         url = ''
-        welcome = ''
         login_status = ''
 
         user = users.get_current_user()
 
         if user:
-            welcome = 'Welcome back to the workspace, we missed You!'
             url = users.create_logout_url('/')
             login_status = 'Logout'
 
@@ -77,9 +70,7 @@ class Timeline(webapp2.RequestHandler):
             myuser = myuser_key.get()
 
             if myuser == None:
-                welcome = 'Hurray! Your First Login into the workspace, we hope you enjoy our application!'
                 myuser = MyUser(id=user.user_id(),
-                                identity=user.user_id(),
                                 email=user.email(),
                                 username=user.email()
                                 )
@@ -91,13 +82,13 @@ class Timeline(webapp2.RequestHandler):
 
         timeline = []
 
-
         # GET ALL TIMELINE MEMBERS
         for i, followers in enumerate(myuser.timeline):
             timeline.append(followers)
 
         # GET ALL TIMELINE POSTS
         timeline_posts = []
+
         for i in timeline:
             for j in MyUser.get_by_id(i).users_posts_key:
                 timeline_posts.append(j)
@@ -107,10 +98,6 @@ class Timeline(webapp2.RequestHandler):
 
         for j in timeline_posts:
             sorted_timeline.append(Post.get_by_id(j.id()))
-
-        timeline_count = 0
-        for counting in sorted_timeline:
-            timeline_count = timeline_count + 1
 
         followers_id = []
         following_id = []
@@ -142,7 +129,6 @@ class Timeline(webapp2.RequestHandler):
         template_values = {
             'url': url,
             'user': user,
-            'welcome': welcome,
             'login_status': login_status,
             'user_email': user.email(),
             'user_id': myuser,
@@ -156,19 +142,18 @@ class Timeline(webapp2.RequestHandler):
             'followers_count': followers_count,
             'post_count': post_count,
             'myuser': myuser,
-            'sorted_timeline': sorted_timeline,
-            'timeline_count': timeline_count
+            'sorted_timeline': sorted_timeline
         }
 
         template = JINJA_ENVIRONMENT.get_template('timeline.html')
         self.response.write(template.render(template_values))
 
-    def post(self):
-        self.response.headers['Content-Type'] = 'text/html'
-
-        # GET USER KEY
-        user = users.get_current_user()
-        myuser_key = ndb.Key('MyUser', user.user_id())
+    # def post(self):
+    #     self.response.headers['Content-Type'] = 'text/html'
+    #
+    #     # GET USER KEY
+    #     user = users.get_current_user()
+    #     myuser_key = ndb.Key('MyUser', user.user_id())
 
 
 class Comment(webapp2.RequestHandler):
@@ -181,7 +166,6 @@ class Comment(webapp2.RequestHandler):
 
         # GET POST DETAILS
         post_details = Post.get_by_id(post_id)
-        # self.response.write(post_details)
 
         new_comment = Comments(
             comment=self.request.get('comment'),

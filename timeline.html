@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
+            <a href="/profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
                 <img src="img/avatar.png" class="d-block mx-auto mt-4" height="80"/>
                 <div class="row">
                     <div class="col text-center mt-3">
@@ -34,7 +34,7 @@
             </a>
             <div class="row p-4 mt-2">
                 <div class="col text-center">
-                    <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
+                    <a href="/profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
                         <span class="font-weight-bold" style="color: white;">{{ post_count }}</span>
                         <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Posts</p>
                     </a>
@@ -83,7 +83,7 @@
 
                 <div class="row">
                     <div class="col">
-                        <h1 class="lead" style="font-size: 30px; font-weight: 500;">Timeline <span class="small lead text-danger">({{ timeline_count }} posts)</span> </h1>
+                        <h1 class="lead" style="font-size: 30px; font-weight: 500;">Timeline</h1>
                     </div>
                     <div class="col" style="margin-top: 10px;">
                         <button type="button" style="padding: 7px 15px;" class="btn btn-danger float-right mr-4" data-toggle="modal" data-target="#newPost">
@@ -120,7 +120,7 @@
 
                                 <div class="col-12 pt-3 pr-3 pl-3">
                                     <p>
-                                        <a href="/user_profile?id={{ MyUser.get_by_id(x.id()).key.urlsafe() }}" style="text-decoration: none;">
+                                        <a href="/profile?id={{ MyUser.get_by_id(x.id()).key.urlsafe() }}" style="text-decoration: none;">
                                             <span class="font-weight-bold">{{ MyUser.get_by_id(x.id()).email }} </span>
                                         </a>
                                         <span class="lead" style="font-size: 17px; color: lightgray">{{ i.caption }}</span>
@@ -130,7 +130,7 @@
                                 <div class="col-12 mt-2">
 
                                     {% for i in i.comments[-5:][::-1] %}
-                                    <a href="/user_profile?id={{ MyUser.get_by_id(i.commenter).key.urlsafe() }}" style="text-decoration: none;">
+                                    <a href="/profile?id={{ MyUser.get_by_id(i.commenter).key.urlsafe() }}" style="text-decoration: none;">
                                         <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
                                     </a>
                                     <span class="lead" style="font-size: 16px;">{{i.comment}}</span>
@@ -152,7 +152,7 @@
                                     {% if loop.index > 5 %}
                                     <div class="collapse" id="collapseExample{{z.key.id()}}">
                                           <div>
-                                              <a href="/user_profile?id={{ MyUser.get_by_id(i.commenter).key.urlsafe() }}" style="text-decoration: none;">
+                                              <a href="/profile?id={{ MyUser.get_by_id(i.commenter).key.urlsafe() }}" style="text-decoration: none;">
                                                 <span class="font-weight-bold">{{MyUser.get_by_id(i.commenter).email}}</span>
                                               </a>
                                                 <span class="lead" style="font-size: 16px;">{{i.comment}}</span>

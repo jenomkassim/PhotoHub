@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
+            <a href="/profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
                 <img src="img/avatar.png" class="d-block mx-auto mt-4" height="80"/>
                 <div class="row">
                     <div class="col text-center mt-3">
@@ -32,7 +32,7 @@
             </a>
             <div class="row p-4 mt-2">
                 <div class="col text-center">
-                    <a href="/user_profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
+                    <a href="/profile?id={{ myuser.key.urlsafe() }}" style="text-decoration: none;">
                         <span class="font-weight-bold" style="color: white;">{{ current_user_post_count }}</span>
                         <p class="lead pt-2" style="color: whitesmoke; font-weight: 100; font-size: 15px;">Posts</p>
                     </a>
@@ -93,7 +93,7 @@
 
                                 <div>
                                     <span class="lead font-weight-bold" style="font-size: 14px;">Email Address</span>
-                                    <a href="/user_profile?id={{ user_profile_deets.key.urlsafe() }}">
+                                    <a href="/profile?id={{ user_profile_deets.key.urlsafe() }}">
                                         <p class="lead" style="color: lightgray;">{{ user_profile_deets.email }}</p>
                                     </a>
                                 </div>
@@ -114,14 +114,14 @@
 
                                 <div>
                                     {% if user_id in followers_id %}
-                                    <form action="/user_profile?id={{ user_profile_deets.key.urlsafe() }}" method="post">
+                                    <form action="/profile?id={{ user_profile_deets.key.urlsafe() }}" method="post">
                                         <input type="text" name="user_info" value="{{ user.user_id() }}" class="d-none">
                                         <input type="submit" class="btn btn-danger form-control" name="button" value="Unfollow">
                                     </form>
                                     {% elif user_email == user_profile_deets.email %}
 
                                     {% else %}
-                                    <form action="/user_profile?id={{ user_profile_deets.key.urlsafe() }}" method="post">
+                                    <form action="/profile?id={{ user_profile_deets.key.urlsafe() }}" method="post">
                                         <input type="text" name="user_info" value="{{ user.user_id() }}" class="d-none">
                                         <input type="submit" class="btn btn-success form-control" name="button" value="Follow">
                                     </form>
@@ -165,7 +165,7 @@
 
                                                 {% for i in followers_id %}
                                                 <div class="col-4 mt-4">
-                                                    <a href="/user_profile?id={{ MyUser.get_by_id(i).key.urlsafe() }}" style="text-decoration: none;">
+                                                    <a href="/profile?id={{ MyUser.get_by_id(i).key.urlsafe() }}" style="text-decoration: none;">
                                                         <img src="img/avatar.png" class="d-block mx-auto" style="width: 90px; height: 90px;">
                                                         <p class="text-center mt-3 taskboard-text-alt">{{ MyUser.get_by_id(i).email }}</p>
                                                     </a>
